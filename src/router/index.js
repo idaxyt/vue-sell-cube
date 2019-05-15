@@ -19,5 +19,6 @@ export default new Router({
             component: () =>
                 import ('../components/v-content/Ratings')
         }
-    ]
+    ],
+    linkActiveClass: 'active'
 })

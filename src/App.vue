@@ -28,6 +28,7 @@ export default {
 </script>
 
 <style lang='stylus'>
+@import './common/stylus/mixin.styl'
 #app 
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -40,7 +41,15 @@ export default {
     width:  100%
     height: 40px
     line-height: 40px
+    border-1px(rgba(7,17,27,0.1))
     .tab-item
       text-align: center
       flex: 1
+      a
+        display: block
+        text-decoration: none 
+        font-size: 14px
+        color: rgb(77,85,93)
+      .active
+        color: rgb(240,20,20)
 </style>

@@ -40,6 +40,12 @@
             <div class="text">优惠信息</div>
             <div class="line"></div>
           </div>
+          <ul v-if="seller.supports" class="supports">
+            <li class="support-item" v-for="(item,index) in seller.supports" :key='index'>
+              <support-ico class="icon" :size='2' :type='item.type'></support-ico>
+              <span class="text">{{item.description}}</span>
+            </li>
+          </ul>
         </div>
       </div>
       <!-- 固定在浮窗底部的close按钮，采用css sticky footer布局 -->
@@ -220,7 +226,7 @@ export default {
         .title
           display: flex
           width: 80%
-          margin: 30px auto 24px auto
+          margin: 28px auto 24px auto
           .line
             flex: 1
             position: relative
@@ -228,9 +234,26 @@ export default {
             border-bottom: 1px solid rgba(255,255,255,0.2)
           .text
             padding: 0 12px
+            font-weight: 700
             font-size: 14px
+        .supports
+            width: 80%
+            margin: 0 auto 
+            .support-item
+              padding: 0 12px
+              margin-bottom: 12px
+              font-size: 0
+              :last-child
+                margin-bottom: 0
+              .icon
+                display: inline-block
+                vertical-align: top
+                margin-right: 6px
+              .text
+                line-height: 15px;
+                font-size: 12px;
     .detail-close
-      position: r elative
+      position: relative
       width: 32px
       height: 32px
       margin: -64px auto 0 auto

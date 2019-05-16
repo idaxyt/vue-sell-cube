@@ -46,10 +46,18 @@
               <span class="text">{{item.description}}</span>
             </li>
           </ul>
+          <div class="title">
+            <div class="line"></div>
+            <div class="text">商家公告</div>
+            <div class="line"></div>
+          </div>
+          <div class="bulletin">
+            <p class="content">{{seller.bulletin}}</p>
+          </div>
         </div>
       </div>
       <!-- 固定在浮窗底部的close按钮，采用css sticky footer布局 -->
-      <div class="detail-close">
+      <div class="detail-close" @click='detailShow=false'>
         <i class="icon-close"></i>
       </div>
     </div>
@@ -252,6 +260,13 @@ export default {
               .text
                 line-height: 15px;
                 font-size: 12px;
+        .bulletin
+          width: 80%;
+          margin: 0 auto 
+          .content
+            padding: 0 12px
+            line-height: 24px
+            font-size: 12px
     .detail-close
       position: relative
       width: 32px

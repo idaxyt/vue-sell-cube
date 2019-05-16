@@ -31,10 +31,8 @@
     <div class="detail" v-show='detailShow'>
       <div class="detail-wrapper clearfix">
         <div class="detail-main">
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
-          <p>{{seller.bulletin}}</p>
+          <h1 class="name">{{seller.name}}</h1>
+          <star :size='24' :score='seller.score'></star>
         </div>
       </div>
       <!-- 固定在浮窗底部的close按钮，采用css sticky footer布局 -->
@@ -47,6 +45,7 @@
 
 <script type="text/ecmascript-6">
 import SupportIco from '../support-ico/support-ico'
+import Star from '../star/star'
 export default {
   name: 'v-header',
   props: {
@@ -63,14 +62,15 @@ export default {
     }
   },
   components: {
-    SupportIco
+    SupportIco,
+    Star
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-@import '../../../src/common/stylus/mixin';
-@import '../../../src/common/stylus/variable';
+@import '~common/stylus/mixin';
+@import '~common/stylus/variable';
 .header 
   position: relative;
   overflow: hidden;
@@ -197,9 +197,15 @@ export default {
     background: rgba(7,17,27,0.8);
     .detail-wrapper
       min-height: 100%; 
+      width: 100%
       .detail-main
         margin-top: 64px;
         padding-bottom: 64px;
+        .name
+          line-height: 16px
+          text-align: center
+          font-size: 16px
+          font-weight: 700
     .detail-close
       position: r elative
       width: 32px

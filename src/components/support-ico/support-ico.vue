@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
-@import '../../../src/common/stylus/mixin';
+@import '~common/stylus/mixin';
 .icon-1
     width: 12px
     height: 12px

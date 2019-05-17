@@ -12,7 +12,7 @@
         <router-link to="/seller">商家</router-link>
       </div>
     </div>
-    <router-view></router-view>
+    <router-view :goods='goods' :seller='seller'></router-view>
   </div>
 </template>
 
@@ -24,7 +24,8 @@ export default {
   name: "app",
   data() {
     return {
-      seller: {}
+      seller: {},
+      goods: {}
     }
   },
   components: {
@@ -35,6 +36,12 @@ export default {
       res = res.body
       if(res.errno===ERR_OK) {
           this.seller = res.data
+      }
+    }),
+    this.$http.get('api/goods').then((res) => {
+      res = res.body
+      if(res.errno == ERR_OK) {
+        this.goods = res.data
       }
     })
   }

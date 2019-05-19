@@ -51,7 +51,7 @@
                 </li>
             </ul>
         </div>
-        <ShopCart :seller='seller'></ShopCart>
+        <ShopCart :seller='seller' :select-foods='selectedFoods'></ShopCart>
     </div>
 </template>
 
@@ -86,6 +86,17 @@ export default {
         CartControl
     },
     computed: {
+        selectedFoods() {
+            let foods = []
+            this.goods.forEach((good)=>{
+                good.foods.forEach((food)=>{
+                    if(food.count>0) {
+                        foods.push(food)
+                    }
+                })
+            })
+            return foods
+        }
     },
     methods: {
         _initScroll() {

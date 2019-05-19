@@ -2,7 +2,12 @@
     <div class="goods">
         <div class="menu-wrapper" ref='menuWrapper'>
             <ul>
-                <li v-for="(item,index) in goods" :key='index' class="menu-item">
+                <li 
+                    v-for="(item,index) in goods" 
+                    :key='index' 
+                    class="menu-item" 
+                    :ref='index'
+                    :class="CurrentIndex==index?'current':''">
                     <span class='text border-1px'>
                         <support-ico class="icon" v-show='item.type > 0' :size='3' :type='item.type'></support-ico>{{item.name}}
                     </span>
@@ -11,7 +16,13 @@
         </div>
         <div class="foods-wrapper" ref='foodsWrapper'>
             <ul>
-                <li v-for="(item,index) in goods" :key="index">
+                <li 
+                    v-for="(item,index) in goods" 
+                    :key="index" 
+                    :ref='item.name'
+                    @touchstart.prevent='handleTouchStart'
+                    @touchmove='handleTouchMove'
+                    @touchend='handleTouchEnd'>
                     <h1 class="title">{{item.name}}</h1>
                     <ul>
                         <li v-for="(food,k) in item.foods" :key="k" class="food-item border-1px">
@@ -53,15 +64,59 @@ export default {
     },
     data() {
         return {
+            Index: 0,
+            touchStatus: false,
+            scrollY: 0,
+            CurrentIndex: 0,
+            foodsList: [],
+            timer: null
         }
     },
     components: {
         SupportIco
     },
+    computed: {
+    },
     methods: {
         _initScroll() {
-            this.menuScroll = new BScroll(this.$refs.menuWrapper,{})
-            this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{})
+            this.menuScroll = new BScroll(this.$refs.menuWrapper,{
+                 probeType: 3
+            })
+            this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
+                probeType: 3
+            })
+            this.foodsList = this.goods.map((item,index)=>{
+                return this.$refs[item.name][0].offsetTop
+            })
+        },
+        handleTouchStart() {
+            this.touchStatus = true
+        },
+        handleTouchMove(e) {
+            if(this.touchStatus) {
+                let that = this
+                if(this.timer) {
+                    clearTimeout(this.timer);
+                }
+                this.timer = setTimeout(()=>{
+                    this.foodsScroll.on('scroll',function(pos) {
+                        that.scrollY = Math.abs(Math.round(pos.y))
+                        for(let j = 0; j < that.foodsList.length; j++) {
+                            let height1 = that.foodsList[j]
+                            let height2 = that.foodsList[j+1]
+                            if((!height2 && that.scrollY>height1) || (height1 <= that.scrollY && that.scrollY < height2)) {
+                                const ele = that.$refs[j][0]
+                                that.CurrentIndex = j
+                                that.menuScroll.scrollToElement(ele)
+                                break
+                            }
+                        }
+                    })
+                },16)
+            }
+        },
+        handleTouchEnd() {
+            this.touchStatus = false
         }
     },
     mounted() {
@@ -91,6 +146,15 @@ export default {
             padding: 0 12px
             line-height: 14px 
             height: 54px
+            &.current
+                position: relative
+                z-index: 10
+                margin-top: -1px
+                font-weight: 700
+                background-color: #fff
+                line-height: 20px
+                .text
+                    border-none()
             .icon
                 display: inline-block
                 width: 12px

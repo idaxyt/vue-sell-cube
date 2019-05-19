@@ -42,6 +42,9 @@
                                     <span class="now">￥{{food.price}}</span>
                                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                                 </div>
+                                <div class="cartcontrol-wrapper">
+                                    <CartControl :food="food"></CartControl>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -56,6 +59,7 @@
 import SupportIco from '../support-ico/support-ico'
 import BScroll from 'better-scroll'
 import ShopCart from '../shopCart/ShopCart'
+import CartControl from '../cartControl/CartControl'
 export default {
     name: 'Goods',
     props: {
@@ -78,7 +82,8 @@ export default {
     },
     components: {
         SupportIco,
-        ShopCart
+        ShopCart,
+        CartControl
     },
     computed: {
     },
@@ -88,6 +93,7 @@ export default {
                 click: true
             })
             this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
+                click: true,
                 probeType: 3
             })
             this.foodsList = this.goods.map((item,index)=>{
@@ -230,5 +236,9 @@ export default {
                         font-size: 10px
                         color: rgb(147,153,1559)
                         text-decoration: line-through
+                .cartcontrol-wrapper
+                    position: absolute
+                    right: 0
+                    bottom: 12px
                 
 </style>

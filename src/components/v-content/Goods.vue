@@ -6,8 +6,10 @@
                     v-for="(item,index) in goods" 
                     :key='index' 
                     class="menu-item" 
+                    @click="handleClick(item.name)"
                     :ref='index'
-                    :class="CurrentIndex==index?'current':''">
+                    :class="CurrentIndex==index?'current':''"
+                    >
                     <span class='text border-1px'>
                         <support-ico class="icon" v-show='item.type > 0' :size='3' :type='item.type'></support-ico>{{item.name}}
                     </span>
@@ -80,7 +82,7 @@ export default {
     methods: {
         _initScroll() {
             this.menuScroll = new BScroll(this.$refs.menuWrapper,{
-                 probeType: 3
+                click: true
             })
             this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
                 probeType: 3
@@ -88,6 +90,10 @@ export default {
             this.foodsList = this.goods.map((item,index)=>{
                 return this.$refs[item.name][0].offsetTop
             })
+        },
+        handleClick(v) {
+            const element = this.$refs[v][0]
+            this.foodsScroll.scrollToElement(element)
         },
         handleTouchStart() {
             this.touchStatus = true

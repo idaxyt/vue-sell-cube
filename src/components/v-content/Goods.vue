@@ -48,12 +48,14 @@
                 </li>
             </ul>
         </div>
+        <ShopCart :seller='seller'></ShopCart>
     </div>
 </template>
 
 <script>
 import SupportIco from '../support-ico/support-ico'
 import BScroll from 'better-scroll'
+import ShopCart from '../shopCart/ShopCart'
 export default {
     name: 'Goods',
     props: {
@@ -75,7 +77,8 @@ export default {
         }
     },
     components: {
-        SupportIco
+        SupportIco,
+        ShopCart
     },
     computed: {
     },

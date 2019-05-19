@@ -6,7 +6,7 @@
                     v-for="(item,index) in goods" 
                     :key='index' 
                     class="menu-item" 
-                    @click="handleClick(item.name)"
+                    @click="handleClick(item.name,$event,index)"
                     :ref='index'
                     :class="CurrentIndex==index?'current':''"
                     >
@@ -91,8 +91,12 @@ export default {
                 return this.$refs[item.name][0].offsetTop
             })
         },
-        handleClick(v) {
+        handleClick(v,event,index) {
+            if(!event._constructed) {
+                return 
+            }
             const element = this.$refs[v][0]
+            this.CurrentIndex = index
             this.foodsScroll.scrollToElement(element)
         },
         handleTouchStart() {
@@ -110,7 +114,7 @@ export default {
                         for(let j = 0; j < that.foodsList.length; j++) {
                             let height1 = that.foodsList[j]
                             let height2 = that.foodsList[j+1]
-                            if((!height2 && that.scrollY>height1) || (height1 <= that.scrollY && that.scrollY < height2)) {
+                            if((!height2 && that.scrollY>=height1) || (height1 <= that.scrollY && that.scrollY < height2)) {
                                 const ele = that.$refs[j][0]
                                 that.CurrentIndex = j
                                 that.menuScroll.scrollToElement(ele)

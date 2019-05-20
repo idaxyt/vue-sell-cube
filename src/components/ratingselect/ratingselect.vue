@@ -1,11 +1,11 @@
 <template>
     <div class="ratingselect">
         <div class="rating-type border-1px">
-            <span class="block positive" :class="selectType==2?'active':''">{{desc.all}}<span class='count'>47</span></span>
-            <span class="block positive" :class="selectType==0?'active':''">{{desc.positive}}<span class='count'>40</span></span>
-            <span class="block negative" :class="selectType==1?'active':''">{{desc.negative}}<span class='count'>7</span></span>
+            <span @click='select(2,$event)' class="block positive" :class="Type==2?'active':''">{{desc.all}}<span class='count'>{{ratings.length}}</span></span>
+            <span @click='select(0,$event)' class="block positive" :class="Type==0?'active':''">{{desc.positive}}<span class='count'>{{positive.length}}</span></span>
+            <span @click='select(1,$event)' class="block negative" :class="Type==1?'active':''">{{desc.negative}}<span class='count'>{{negative.length}}</span></span>
         </div>
-        <div class="switch" :class="onlyContent?'on':''">
+        <div @click='toggleContent' class="switch" :class="onlyContent?'on':''">
             <i class="icon-check_circle"></i>
             <span class="text">只看有内容的评价</span>
         </div>
@@ -18,6 +18,12 @@
     const ALL= 2
 export default {
     name: 'ratingselect',
+    data() {
+        return {
+            Type: -1,
+            only: false
+        }
+    },
     props: {
         ratings: {
             type: Array,
@@ -43,7 +49,39 @@ export default {
                 }
             }
         }
-    }
+    },
+    methods: {
+        select(v,event) {
+            if(!event._constructed) {
+                return 
+            }
+            this.Type = v
+            this.$emit('change',v)
+        },
+        toggleContent(event) {
+            if(!event._constructed) {
+                return 
+            }
+            this.only = !this.only
+            this.$emit('changeonlyContent', this.only)
+        }
+    },
+    mounted() {
+        this.Type = this.selectType
+        this.only = this.onlyContent
+    },
+    computed: {
+        positive() {
+            return this.ratings.filter((rating) => {
+                return rating.rateType === POSITIVE
+            })
+        },
+        negative() {
+            return this.ratings.filter((rating) => {
+                return rating.rateType === NEGATIVE
+            })
+        }
+    },
 }
 </script>
 
@@ -80,7 +118,6 @@ export default {
         .switch
             padding: 12px 18px
             line-height: 24px
-            margin: 0 18px
             border-1px(rgba(7,17,27,0.1))
             color: rgb(147,153,159)
             font-size: 0

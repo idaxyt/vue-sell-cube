@@ -31,7 +31,7 @@
             <Split></Split>
             <div class="rating">
                 <div class='title'>商品评价</div>
-                <RatingSelect :selectType='selectType' :onlyContent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
+                <RatingSelect @change='change' @changeonlyContent='changeonlyContent' :selectType='selectType' :onlyContent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
             </div>
         </div>
     </div>
@@ -96,6 +96,12 @@ export default {
             }
             this.$emit('cartadd',event.target)
             Vue.set(this.food,'count',1)
+        },
+        change(v) {
+            this.selectType = v
+        },
+        changeonlyContent(v) {
+            this.onlyContent = v
         }
     }
 }

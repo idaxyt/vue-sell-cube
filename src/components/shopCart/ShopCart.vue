@@ -12,7 +12,7 @@
                     <div class="price" :class="{'highlight': totalPrice>0}">￥{{totalPrice}}</div>
                     <div class="desc">另需配送费￥{{seller.deliveryPrice}}元</div>
                 </div>
-                <div class="content-right" @click='pay'>
+                <div class="content-right" @click.stop='pay'>
                     <div class="pay" :class="payClass">
                         <span>{{payDesc}}</span>
                     </div>
@@ -179,6 +179,7 @@ export default {
             if(this.totalPrice<this.minPrice) {
                 return
             }
+            console.log(this.totalPrice)
         }
     },
     transitions: {

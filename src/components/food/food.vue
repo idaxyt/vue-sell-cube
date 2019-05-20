@@ -31,7 +31,7 @@
             <Split></Split>
             <div class="rating">
                 <div class='title'>商品评价</div>
-                <RatingSelect :select-type='selectType' :onlyContent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
+                <RatingSelect :selectType='selectType' :onlyContent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
             </div>
         </div>
     </div>

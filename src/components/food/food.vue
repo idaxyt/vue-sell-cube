@@ -17,14 +17,15 @@
                     <div class="price">
                         <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                     </div>
+                    <div class="cartcontrol-wrapper" v-show='food.count'>
+                        <CartControl :food='food'></CartControl>
+                    </div>
+                    <transition>
+                        <div class="buy" v-show='!food.count || food.count===0' @click.stop.prevent='addFirst(food,$event)' transition='fade'>加入购物车</div>
+                    </transition>
                 </div>
-                <div class="cartcontrol-wrapper" v-show='food.count'>
-                    <CartControl :food='food'></CartControl>
-                </div>
-                <transition>
-                    <div class="buy" v-show='!food.count || food.count===0' @click.stop.prevent='addFirst(food,$event)' transition='fade'>加入购物车</div>
-                </transition>
             </div>
+            <split></split>
         </div>
     </transition>
 </template>
@@ -33,6 +34,7 @@
 import BScroll from 'better-scroll'
 import Vue from 'vue'
 import CartControl from '../cartControl/CartControl'
+import split from './split'
 export default {
     name: 'food',
     props: {
@@ -42,7 +44,8 @@ export default {
         value: Boolean
     },
     components: {
-        CartControl
+        CartControl,
+        split
     },
     data() {
         return {
@@ -120,6 +123,7 @@ export default {
                     color: #fff
         .content
             padding: 18px  
+            position: relative
             .title
                 font-size: 14px
                 line-height: 14px
@@ -146,27 +150,27 @@ export default {
                         font-size: 10px
                         color: rgb(147,153,1559)
                         text-decoration: line-through
-        .cartcontrol-wrapper
-            position: absolute 
-            right: 12px
-            bottom: 208px
-        .buy
-            position: absolute
-            right: 18px
-            bottom: 208px
-            z-index: 10
-            height: 24px
-            line-height: 24px
-            padding: 0 12px
-            box-sizing: border-box
-            font-size: 10px
-            border-radius: 12px
-            color: #ffffff
-            background: rgb(0,160,220)
-            &.fade-transition
-                transition: all 0.2s
-                opacity: 1
-            &.fade-enter, .fade-leave
-                opacity: 0
+            .cartcontrol-wrapper
+                position: absolute 
+                right: 12px
+                bottom: 18px
+            .buy
+                position: absolute
+                right: 18px
+                bottom: 18px
+                z-index: 10
+                height: 24px
+                line-height: 24px
+                padding: 0 12px
+                box-sizing: border-box
+                font-size: 10px
+                border-radius: 12px
+                color: #ffffff
+                background: rgb(0,160,220)
+                &.fade-transition
+                    transition: all 0.2s
+                    opacity: 1
+                &.fade-enter, .fade-leave
+                    opacity: 0
 </style>
 

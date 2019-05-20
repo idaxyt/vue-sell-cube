@@ -1,53 +1,58 @@
 <template>
-    <div class="shopCart">
-        <div class="content" @click='toggleList'>
-            <div class="content-left">
-                <div class="logo-wrapper">
-                    <div class="logo" :class="{'highlight': totalCount>0}">
-                        <span class="icon-shopping_cart" :class="{'highlight': totalCount>0}"></span>
+    <div>
+        <div class="shopCart">
+            <div class="content" @click='toggleList'>
+                <div class="content-left">
+                    <div class="logo-wrapper">
+                        <div class="logo" :class="{'highlight': totalCount>0}">
+                            <span class="icon-shopping_cart" :class="{'highlight': totalCount>0}"></span>
+                        </div>
+                        <div class="num" v-show='totalCount>0'>{{totalCount}}</div>
                     </div>
-                    <div class="num" v-show='totalCount>0'>{{totalCount}}</div>
+                    <div class="price" :class="{'highlight': totalPrice>0}">￥{{totalPrice}}</div>
+                    <div class="desc">另需配送费￥{{seller.deliveryPrice}}元</div>
                 </div>
-                <div class="price" :class="{'highlight': totalPrice>0}">￥{{totalPrice}}</div>
-                <div class="desc">另需配送费￥{{seller.deliveryPrice}}元</div>
+                <div class="content-right" @click='pay'>
+                    <div class="pay" :class="payClass">
+                        <span>{{payDesc}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="content-right">
-                <div class="pay" :class="payClass">
-                    <span>{{payDesc}}</span>
-                </div>
+            <div class="ball-container">
+                <transition-group>
+                    <div
+                        transition='drop' 
+                        v-for="(ball,index) in balls" 
+                        :key='index' 
+                        v-show='ball.show'>
+                        <div class="inner inner-hook"></div>
+                    </div>
+                </transition-group>
             </div>
-        </div>
-        <div class="ball-container">
-            <transition-group>
-                <div
-                    transition='drop' 
-                    v-for="(ball,index) in balls" 
-                    :key='index' 
-                    v-show='ball.show'>
-                    <div class="inner inner-hook"></div>
+            <transition>
+                <div class="shopcart-list" v-show='listShow' transition='fold'>
+                    <div class="list-header">
+                        <h1 class="title">购物车</h1>
+                        <span class="empty" @click='empty'>清空</span>
+                    </div>
+                    <div class="list-contained" ref='list'>
+                        <ul>
+                            <li class="food" v-for="(food,index) in selectFoods" :key='index'>
+                                <span class="name">{{food.name}}</span>
+                                <div class="price">
+                                    <span>￥{{food.price*food.count}}</span>
+                                </div>
+                                <div class="cartcontrol-wrapper">
+                                    <CartControl :food='food'></CartControl>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </transition-group>
+            </transition>
         </div>
         <transition>
-            <div class="shopcart-list" v-show='listShow' transition='fold'>
-                <div class="list-header">
-                    <h1 class="title">购物车</h1>
-                    <span class="empty" @click='empty'>清空</span>
-                </div>
-                <div class="list-contained" ref='list'>
-                    <ul>
-                        <li class="food" v-for="(food,index) in selectFoods" :key='index'>
-                            <span class="name">{{food.name}}</span>
-                            <div class="price">
-                                <span>￥{{food.price*food.count}}</span>
-                            </div>
-                            <div class="cartcontrol-wrapper">
-                                <CartControl :food='food'></CartControl>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <div class="list-mask" @click='hideList' v-show='listShow' transition='fade'></div>
         </transition>
     </div>
 </template>
@@ -166,6 +171,14 @@ export default {
             this.selectFoods.forEach((food,index) => {
                 food.count = 0
             })
+        },
+        hideList() {
+            this.fold = true
+        },
+        pay() {
+            if(this.totalPrice<this.minPrice) {
+                return
+            }
         }
     },
     transitions: {
@@ -367,5 +380,22 @@ export default {
                     position: absolute 
                     right: 0
                     bottom: 6px
+.list-mask
+    position: fixed
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    z-index: 40
+    backdrop-filter: blur(10px)
+    background: rgba(7,17,27,0.6)
+    &.fade-transition
+        transition: all 0.5s
+        opcity: 1
+        background: rgba(7,17,27,0.6)
+    &.fase-enter, &.fade-leave
+        opcity: 0
+        background: rgba(7,17,27,0)
+
 </style>    
 

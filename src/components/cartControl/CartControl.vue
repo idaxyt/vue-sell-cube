@@ -4,13 +4,13 @@
             <div 
                 class="cart-decrease" 
                 v-show='food.count>0' 
-                @click='decreaseCart($event)'
+                @click.stop.prevent='decreaseCart($event)'
                 transition='move'>
                     <span class="inner icon-remove_circle_outline"></span>
             </div>
         </transition>
         <div class="cart-count" v-show='food.count>0'>{{food.count}}</div>
-        <div class="cart-add icon-add_circle" @click='addCart($event)'></div>
+        <div class="cart-add icon-add_circle" @click.stop.prevent='addCart($event)'></div>
     </div>
 </template>
 

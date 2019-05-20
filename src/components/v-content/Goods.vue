@@ -269,6 +269,7 @@ export default {
                         font-size: 10px
                         color: rgb(147,153,1559)
                         text-decoration: line-through
+                
                 .cartcontrol-wrapper
                     position: absolute
                     right: 0

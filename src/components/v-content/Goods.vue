@@ -43,7 +43,7 @@
                                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                                 </div>
                                 <div class="cartcontrol-wrapper">
-                                    <CartControl :food="food"></CartControl>
+                                    <CartControl :food="food" @cartadd='cartadd'></CartControl>
                                 </div>
                             </div>
                         </li>
@@ -51,7 +51,7 @@
                 </li>
             </ul>
         </div>
-        <ShopCart :seller='seller' :select-foods='selectedFoods'></ShopCart>
+        <ShopCart :seller='seller' :select-foods='selectedFoods' ref='shopcart'></ShopCart>
     </div>
 </template>
 
@@ -147,6 +147,12 @@ export default {
         },
         handleTouchEnd() {
             this.touchStatus = false
+        },
+        cartadd(target) {
+            // 体验优化，异步执行下落动画
+            this.$nextTick(() => {
+                this.$refs['shopcart'].drop(target)
+            })
         }
     },
     mounted() {

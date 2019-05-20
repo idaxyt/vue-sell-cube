@@ -17,6 +17,17 @@
                 </div>
             </div>
         </div>
+        <div class="ball-container">
+            <transition-group>
+                <div
+                    transition='drop' 
+                    v-for="(ball,index) in balls" 
+                    :key='index' 
+                    v-show='ball.show'>
+                    <div class="inner inner-hook"></div>
+                </div>
+            </transition-group>
+        </div>
     </div>
 </template>
 
@@ -30,6 +41,28 @@ export default {
             default() {
                 return []
             }
+        }
+    },
+    data() {
+        return {
+            balls: [
+                {
+                    show: false
+                },
+                {
+                    show: false
+                },
+                {
+                    show: false
+                },
+                {
+                    show: false
+                },
+                {
+                    show: false
+                },
+            ],
+            dropBalls: []
         }
     },
     computed: {
@@ -64,6 +97,60 @@ export default {
             }
         }
     }, 
+    methods: {
+        drop(el) {
+            for(let i = 0; i< this.balls.length;i++) {
+                let ball = this.balls[i]
+                if(!ball.show) {
+                    ball.show = true
+                    ball.el = el
+                    this.dropBalls.push(ball)
+                    return
+                }
+            }
+        }
+    },
+    transitions: {
+        drop: {
+            beforeEnter(el) {
+                let count = this.balls.length
+                while(count--) {
+                    let ball = this.balls[count]
+                    if(ball.show) {
+                        let rect = ball.el.getBoundingClientRect()
+                        let x = rect.left - 32
+                        let y = -(window.innerHeight - rect.top - 32)
+                        el.style.display = ''
+                        el.style.webkitTransform = `translate3d(0,${y}px,0)`
+                        el.style.transform = `translate3d(0,${y}px,0)`
+                        let inner = el.getElementByClassName('inner-hook')[0]
+                        inner.style.webkitTransform = `translate3d(0,${y}px,0)`
+                        inner.style.transform = `translate3d(0,${y}px,0)`
+                    }
+                }
+            },
+            enter(el) {
+                /**
+                 * eslint-disable no-unused-vars
+                 */
+                let rf = el.offsetHeight
+                this.$nextTick(()=>{
+                    el.style.webkitTransform = 'translate3d(0,0,0)'
+                    el.style.transform = 'translate3d(0,0,0)'
+                    let inner = el.getElementByClassName('inner-hook')[0]
+                    inner.style.webkitTransform = 'translate3d(0,0,0)'
+                    inner.style.transform = 'translate3d(0,0,0)'
+                })
+            },
+            afterEnter(el) {
+                let ball = this.dropBalls.shift()
+                if(ball) {
+                    ball.show = false;
+                    el.style.display = 'none'
+                }
+            }
+        }
+    }
 }
 </script>
 
@@ -75,6 +162,10 @@ export default {
     z-index: 50
     width: 100%
     height: 48px
+    .v-enter, .v-leave-to
+        opacity: 0
+    .v-enter-active, .v-leave-active
+        transition: opacity 0.2s
     .content
         display: flex
         background: #141d27
@@ -155,5 +246,18 @@ export default {
                 &.enough
                     background: #00b43c
                     color: #fff
+        .ball-container
+            .ball
+                position: fixed
+                left: 35px
+                bottom: 22px
+                z-index: 200
+                &.drop-transition
+                    transition: all 0.4s cubic-bezier(0.49,-0.29,0.75,0.41)
+                    .inner
+                        width: 16px
+                        height: 16px
+                        border-radius: 50%
+                        background: rgb(0,160,220) linear
 </style>    
 

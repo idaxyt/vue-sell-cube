@@ -179,7 +179,6 @@ export default {
             if(this.totalPrice<this.minPrice) {
                 return
             }
-            console.log(this.totalPrice)
         }
     },
     transitions: {

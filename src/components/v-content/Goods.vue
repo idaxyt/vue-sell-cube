@@ -27,7 +27,11 @@
                     @touchend='handleTouchEnd'>
                     <h1 class="title">{{item.name}}</h1>
                     <ul>
-                        <li v-for="(food,k) in item.foods" :key="k" class="food-item border-1px">
+                        <li 
+                            v-for="(food,k) in item.foods" 
+                            :key="k" 
+                            class="food-item border-1px" 
+                            @click='selectFood(food,$event)'>
                             <div class="icon">
                                 <img width='57' height='57' :src="food.icon" alt="">
                             </div>
@@ -52,6 +56,7 @@
             </ul>
         </div>
         <ShopCart :seller='seller' :select-foods='selectedFoods' ref='shopcart'></ShopCart>
+        <Food :food='selectedFood' v-model="chooseFood"></Food>
     </div>
 </template>
 
@@ -60,6 +65,7 @@ import SupportIco from '../support-ico/support-ico'
 import BScroll from 'better-scroll'
 import ShopCart from '../shopCart/ShopCart'
 import CartControl from '../cartControl/CartControl'
+import Food from '../food/food'
 export default {
     name: 'Goods',
     props: {
@@ -77,13 +83,16 @@ export default {
             scrollY: 0,
             CurrentIndex: 0,
             foodsList: [],
-            timer: null
+            timer: null,
+            selectedFood: {},
+            chooseFood: false
         }
     },
     components: {
         SupportIco,
         ShopCart,
-        CartControl
+        CartControl,
+        Food
     },
     computed: {
         selectedFoods() {
@@ -153,6 +162,13 @@ export default {
             this.$nextTick(() => {
                 this.$refs['shopcart'].drop(target)
             })
+        },
+        selectFood(food,event) {
+            if(!event._constructed) {
+                return
+            }
+            this.selectedFood = food
+            this.chooseFood = true
         }
     },
     mounted() {

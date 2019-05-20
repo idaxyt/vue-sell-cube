@@ -1,40 +1,51 @@
 <template>
-    <transition>
-        <div v-show='showFlag' class="food" trasition='move' ref='foodDetail'>
-            <div class="food-content">
-                <div class="image-header">
-                    <img :src="food.image" alt="">
-                    <div class="back" @click="back">
-                        <i class="icon-arrow_lift"></i>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="title">{{food.name}}</div>
-                    <div class="detail">
-                        <span class="sell-count">月售{{food.sellCount}}份</span>
-                        <span class="rating">好评率{{food.rating}}</span>
-                    </div>
-                    <div class="price">
-                        <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
-                    </div>
-                    <div class="cartcontrol-wrapper" v-show='food.count'>
-                        <CartControl :food='food'></CartControl>
-                    </div>
-                    <transition>
-                        <div class="buy" v-show='!food.count || food.count===0' @click.stop.prevent='addFirst(food,$event)' transition='fade'>加入购物车</div>
-                    </transition>
+    <div v-show='showFlag' class="food" trasition='move'  ref='Detail'>
+        <div class="food-content">
+            <div class="image-header">
+                <img :src="food.image" alt="">
+                <div class="back" @click="back">
+                    <i class="icon-arrow_lift"></i>
                 </div>
             </div>
-            <split></split>
+            <div class="content">
+                <div class="title">{{food.name}}</div>
+                <div class="detail">
+                    <span class="sell-count">月售{{food.sellCount}}份</span>
+                    <span class="rating">好评率{{food.rating}}</span>
+                </div>
+                <div class="price">
+                    <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
+                </div>
+                <div class="cartcontrol-wrapper" v-show='food.count'>
+                    <CartControl :food='food'></CartControl>
+                </div>
+                <transition>
+                    <div class="buy" v-show='!food.count || food.count===0' @click.stop.prevent='addFirst(food,$event)' transition='fade'>加入购物车</div>
+                </transition>
+            </div>
+            <split v-show='food.info'></split>
+            <div class="info" v-show='food.info'>
+                <h1 class="title">{{food.name}}</h1>
+                <p class="text">{{food.info}}</p>
+            </div>
+            <Split></Split>
+            <div class="rating">
+                <div class='title'>商品评价</div>
+                <RatingSelect :select-type='selectType' :onlyContent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
+            </div>
         </div>
-    </transition>
+    </div>
 </template>
 
 <script>
+    const POSITIVE = 0;
+    const NEGATIVE = 1;
+    const ALL = 2
 import BScroll from 'better-scroll'
 import Vue from 'vue'
 import CartControl from '../cartControl/CartControl'
-import split from './split'
+import Split from './split'
+import RatingSelect from '../ratingselect/ratingselect'
 export default {
     name: 'food',
     props: {
@@ -45,22 +56,31 @@ export default {
     },
     components: {
         CartControl,
-        split
+        Split,
+        RatingSelect
     },
     data() {
         return {
-            // showFlag: false
+            selectType: ALL,
+            onlyContent: true,
+            desc: {
+                all: '全部',
+                positive: '推荐',
+                negative: '吐槽'
+            }
         }
     },
     computed: {
         showFlag() {
+            this.selectType = ALL
+            this.onlyContent = true
             this.$nextTick(()=>{
-                if(!this.foodDetailScroll) {
-                    this.foodDetailScroll = new BScroll(this.$refs['foodDetail'],{
+                if(!this.foodDetailscroll) {
+                     this.foodDetailscroll = new BScroll(this.$refs['Detail'],{
                         click: true
                     })
                 } else {
-                    this.foodDetailScroll.refresh()
+                    this.foodDetailscroll.refresh()
                 }
             })
             return this.value
@@ -172,5 +192,26 @@ export default {
                     opacity: 1
                 &.fade-enter, .fade-leave
                     opacity: 0
+        .info
+            padding: 18px
+            .title
+                line-height: 14px
+                margin-bottom: 6px
+                font-size: 14px
+                color: rgb(7,17,27)
+            .text
+                color: rgb(77,85,93)
+                line-height: 24px
+                padding: 0 8px
+                font-size: 12px
+        .rating
+            padding-top: 18px
+            .title
+                font-size: 14px
+                line-height: 14px
+                margin-left: 18px
+                font-weight: 700
+                color: rgb(7,17,27)
+
 </style>
 

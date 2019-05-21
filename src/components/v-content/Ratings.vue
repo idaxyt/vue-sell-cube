@@ -50,15 +50,15 @@
                                 <div class="star-wrapper">
                                     <Star class="star" :size='24' :score='rating.score'></Star><span class="delivery">{{rating.deliveryTime}}分钟</span>
                                 </div>
+                                <p class="text">
+                                    {{rating.text}}
+                                </p>
+                                <div class="recommend" v-show='rating.recommend && rating.recommend.length'>
+                                    <span :class="rating.rateType===0?'icon-thumb_up':'icon-thumb_down'" ></span>
+                                    <span class="item" v-for="(recommend,index) in rating.recommend" :key="index">{{recommend}}</span>	
+                                </div>
+                                <div class="time">{{rating.rateTime | formatDate}}</div>    
                             </div>
-                            <p class="text">
-                                {{rating.text}}
-                            </p>
-                            <div class="recommend" v-show='rating.recommend && rating.recommend.length'>
-                                <span :class="rating.rateType===0?'icon-thumb_up':'icon-thumb_down'" ></span>
-                                <span v-for="(recommend,index) in rating.recommend" :key="index">{{recommend}}</span>	
-                            </div>
-                            <div class="time">{{rating.rateTime | formatDate}}</div>
                         </li>
                     </ul>
                 </div>
@@ -119,7 +119,6 @@ export default {
             }
         },
         change(v) {
-            console.log('rest')
             this.selectType = v
             this.$nextTick(()=>{
                 this.ratingsScroll.refresh()
@@ -222,45 +221,64 @@ export default {
             overflow: hidden
             z-index: 40 
             .scroll
-                padding-bottom: 130px
+                padding-bottom: 50px
             .rating-item
-                position: relative 
-                padding: 16px 0 
+                display: flex 
+                padding: 18px 0 
                 border-1px(rgba(7,17,27,0.1))
-                .user
-                    position: absolute 
-                    right: 0
-                    top: 16px
-                    font-size: 0
-                    line-height: 12px
+                .avater
+                    flex: 0 0 28px
+                    width: 28px
+                    margin-right: 12px
+                    img
+                        border-radius: 50%
+                .content
+                    position: relative
+                    flex: 1
                     .name
-                        display: inline-block
-                        margin-right: 6px
-                        vertical-align: top
+                        margin-bottom: 4px
+                        line-height: 12px
+                        font-size: 10px
+                        color: rgb(7,17,27)
+                    .star-wrapper
+                        margin-bottom: 6px
+                        font-size: 0
+                        .star
+                            display: -webkit-inline-flex;
+                            margin-right: 6px
+                            vertical-align: top
+                        .delivery
+                            display: inline-block
+                            vertical-align: top
+                            line-height: 12px
+                            font-size: 10px
+                            color: rgb(147,153,159)
+                    .text
+                        margin-bottom: 8px
+                        line-height: 18px
+                        font-size: 12px
+                        color: rgb(7,17,27)
+                    .recommend
+                        line-height: 16px
+                        font-size: 0
+                        .icon-thumb_up, .item
+                            display: inline-block
+                            margin: 0 8px 4px 0
+                            font-size: 9px
+                        .icon-thumb_up
+                            color: rgb(0,160,220)
+                        .item
+                            padding: 0 6px
+                            border: 1px solid rgba(7,17,27,0.1)
+                            border-radius: 1px
+                            color: rgb(147,153,159)
+                            background: #fff
+                    .time
+                        position: absolute 
+                        top: 0
+                        right: 0
+                        line-height: 12px
                         font-size: 10px
                         color: rgb(147,153,159)
-                    .avater
-                        border-radius: 50%
-                .time
-                    margin-bottom: 6px
-                    line-height: 12px
-                    font-size: 10px
-                    color: rgb(147,153,159)
-                .text
-                    line-height: 16px
-                    font-size: 12px
-                    color: rgb(7,17,27)
-                .icon-thumb_up, .icon-thumb_down
-                    line-height: 16px
-                    margin-right: 4px
-                    font-size: 12px
-                .icon-thumb_up
-                    color: rgb(0,160,220)
-                .icon-thumb_down
-                    color: rgb(147,153,159)
-            .no-rating
-                padding: 16px 0
-                font-size: 12px
-                color: rgb(147,153,159)
                     
 </style>

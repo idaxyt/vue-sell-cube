@@ -33,6 +33,25 @@
                 <div class='title'>商品评价</div>
                 <RatingSelect @change='change' @changeonlyContent='changeonlyContent' :selectType='selectType' :onlyContent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
             </div>
+            <div class="rating-wrapper">
+                <div class="no-rating" v-show='!food.ratings'></div>
+                <ul v-show='food.ratings && food.ratings.length'>
+                    <li 
+                        v-for='(rating,index) in food.ratings' 
+                        :key='index' 
+                        class="rating-item border-1px"
+                        v-show="needShow(rating.rateType,rating.text)">
+                        <div class="user">
+                            <span class="name">{{rating.username}}</span>
+                            <img :src="rating.avatar" alt="" class="avater" width='12px' height='12px'>
+                        </div>
+                        <div class="time">{{rating.rateTime}}</div>
+                        <p class="text">
+                            <span :class="rating.rateType===0?'icon-thumb_up':'icon-thumb_down'" ></span>{{rating.text}}
+                        </p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -102,12 +121,23 @@ export default {
         },
         changeonlyContent(v) {
             this.onlyContent = v
+        },
+        needShow(type,text) {
+            if(this.onlyContent && !text) {
+                return false
+            }
+            if(this.selectType === ALL) {
+                return true
+            } else {
+                return type === this.selectType
+            }
         }
     }
 }
 </script>
 
 <style lang='stylus' scoped> 
+@import "../../common/stylus/mixin"
     .v-enter, .v-leave-to 
         opacity: 0
         transform: rotate(180deg)
@@ -218,6 +248,43 @@ export default {
                 margin-left: 18px
                 font-weight: 700
                 color: rgb(7,17,27)
+        .rating-wrapper
+            padding: 0 18px
+            .rating-item
+                position: relative 
+                padding: 16px 0 
+                border-1px(rgba(7,17,27,0.1))
+                .user
+                    position: absolute 
+                    right: 0
+                    top: 16px
+                    font-size: 0
+                    line-height: 12px
+                    .name
+                        display: inline-block
+                        margin-right: 6px
+                        vertical-align: top
+                        font-size: 10px
+                        color: rgb(147,153,159)
+                    .avater
+                        border-radius: 50%
+                .time
+                    margin-bottom: 6px
+                    line-height: 12px
+                    font-size: 10px
+                    color: rgb(147,153,159)
+                .text
+                    line-height: 16px
+                    font-size: 12px
+                    color: rgb(7,17,27)
+                .icon-thumb_up, .icon-thumb_down
+                    line-height: 16px
+                    margin-right: 4px
+                    font-size: 12px
+                .icon-thumb_up
+                    color: rgb(0,160,220)
+                .icon-thumb_down
+                    color: rgb(147,153,159)
 
 </style>
 

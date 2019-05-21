@@ -62,6 +62,9 @@ export default {
                 width: 137px
                 text-align: center
                 border-right: 1px solid rgba(7,17,27,0.1)
+                @media only screen and (max-width: 320px)
+                    flex: 0 0 110px
+                    width: 110px
                 .score
                     margin-bottom: 6px
                     height: 28px
@@ -80,6 +83,8 @@ export default {
             .overview-right
                 flex: 1
                 padding: 6px 0 6px 24px
+                @media only screen and (max-width: 320px)
+                    padding: 6px 0 6px 12px
                 .score-wrapper, .delivery-wrapper
                     margin-bottom: 8px
                     font-size: 0

@@ -79,10 +79,9 @@ export default {
                     color: rgb(147,153,159)
             .overview-right
                 flex: 1
-                padding-left: 24px
+                padding: 6px 0 6px 24px
                 .score-wrapper, .delivery-wrapper
                     margin-bottom: 8px
-                    margin-top: 5px
                     font-size: 0
                     .title
                         display: inline-block
@@ -95,7 +94,6 @@ export default {
                         vertical-align: top
                         line-height: 18px
                         margin: 0 12px
-                        width: 100px
                     .score
                         display: inline-block
                         vertical-align: top

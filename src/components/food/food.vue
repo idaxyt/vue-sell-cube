@@ -45,7 +45,7 @@
                             <span class="name">{{rating.username}}</span>
                             <img :src="rating.avatar" alt="" class="avater" width='12px' height='12px'>
                         </div>
-                        <div class="time">{{rating.rateTime}}</div>
+                        <div class="time">{{rating.rateTime | formatDate}}</div>
                         <p class="text">
                             <span :class="rating.rateType===0?'icon-thumb_up':'icon-thumb_down'" ></span>{{rating.text}}
                         </p>
@@ -138,7 +138,7 @@ export default {
                 return type === this.selectType
             }
         }
-    }
+    },
 }
 </script>
 

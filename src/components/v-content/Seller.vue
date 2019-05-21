@@ -3,7 +3,7 @@
         <div class="seller-content">
             <div class="overview">
                 <h1 class="title">{{seller.name}}</h1>
-                <div class="desc">
+                <div class="desc border-1px">
                     <Star :size='36' :score='seller.score'></Star>
                     <span class="text">{{seller.ratingCount}}</span>
                     <span class="text">月售{{seller.sellCount}}单</span>
@@ -29,6 +29,19 @@
                     </li>
                 </ul>
             </div>
+            <Split></Split>
+            <div class="bulletin">
+                <h1 class="title">公告与活动</h1>
+                <div class="content-wrapper border-1px">
+                    <p class="content">{{seller.bulletin}}</p>
+                </div>
+                <ul v-if="seller.supports" class="supports">
+                    <li class="support-item border-1px" v-for="(item,index) in seller.supports" :key='index'>
+                    <support-ico class="icon" :size='2' :type='item.type'></support-ico>
+                    <span class="text">{{item.description}}</span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -36,6 +49,7 @@
 <script scoped>
 import Star from '../star/star'
 import Split from '../split/split'
+import SupportIco from '../support-ico/support-ico'
 export default {
     name: 'Seller',
     props: {
@@ -47,7 +61,9 @@ export default {
         }
     },
     components: {
-        Star
+        Star,
+        Split,
+        SupportIco
     }
 }
 </script>
@@ -105,4 +121,35 @@ export default {
                 color: rgb(7,17,27)
                 .stress
                     font-size: 24px
+    .bulletin
+        padding: 18px 18px 0 18px 
+        .title
+            margin-bottom: 8px
+            line-height: 14px
+            color: rgb(7,17,27)
+            font-size: 14px
+        .content-wrapper
+            padding: 0 12px 16px 12px
+            border-1px(rgba(7,17,27,0.1))
+            .content
+                line-height: 24px
+                font-size: 12px
+                color: rgb(240,20,20)
+        .supports
+            width: 100%
+            margin: 0 auto 
+            .support-item
+              padding: 16px 12px
+              font-size: 0
+              border-1px(rgba(7,17,27,0.1))
+              :last-child
+                margin-bottom: 0
+              .icon
+                display: inline-block
+                vertical-align: top
+                margin-right: 6px
+              .text
+                line-height: 16px;
+                font-size: 12px;
+                color: rgb(7,17,27)
 </style>

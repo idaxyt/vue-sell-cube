@@ -34,7 +34,7 @@
                 <RatingSelect @change='change' @changeonlyContent='changeonlyContent' :selectType='selectType' :onlyContent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
             </div>
             <div class="rating-wrapper">
-                <div class="no-rating" v-show='!food.ratings'></div>
+                <div class="no-rating" v-show='!food.ratings'>暂无评价</div>
                 <ul v-show='food.ratings && food.ratings.length'>
                     <li 
                         v-for='(rating,index) in food.ratings' 
@@ -256,6 +256,7 @@ export default {
                 color: rgb(7,17,27)
         .rating-wrapper
             padding: 0 18px
+            padding-bottom: 48px
             .rating-item
                 position: relative 
                 padding: 16px 0 
@@ -291,6 +292,10 @@ export default {
                     color: rgb(0,160,220)
                 .icon-thumb_down
                     color: rgb(147,153,159)
+            .no-rating
+                padding: 16px 0
+                font-size: 12px
+                color: rgb(147,153,159)
 
 </style>
 

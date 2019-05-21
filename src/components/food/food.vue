@@ -63,7 +63,7 @@
 import BScroll from 'better-scroll'
 import Vue from 'vue'
 import CartControl from '../cartControl/CartControl'
-import Split from './split'
+import Split from '../split/split'
 import RatingSelect from '../ratingselect/ratingselect'
 export default {
     name: 'food',

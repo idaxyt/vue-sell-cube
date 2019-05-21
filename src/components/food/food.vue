@@ -118,9 +118,15 @@ export default {
         },
         change(v) {
             this.selectType = v
+            this.$nextTick(()=>{
+                this.foodDetailscroll.refresh()
+            })
         },
         changeonlyContent(v) {
             this.onlyContent = v
+            this.$nextTick(()=>{
+                this.foodDetailscroll.refresh()
+            })
         },
         needShow(type,text) {
             if(this.onlyContent && !text) {

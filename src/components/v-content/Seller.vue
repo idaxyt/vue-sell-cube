@@ -30,17 +30,19 @@
                 </ul>
             </div>
             <Split></Split>
-            <div class="bulletin">
-                <h1 class="title">公告与活动</h1>
-                <div class="content-wrapper border-1px">
-                    <p class="content">{{seller.bulletin}}</p>
+            <div class="bulletin" ref='bulletin'>
+                <div class="bulletincontent">
+                    <h1 class="title">公告与活动</h1>
+                    <div class="content-wrapper border-1px">
+                        <p class="content">{{seller.bulletin}}</p>
+                    </div>
+                    <ul v-if="seller.supports" class="supports">
+                        <li class="support-item border-1px" v-for="(item,index) in seller.supports" :key='index'>
+                        <support-ico class="icon" :size='2' :type='item.type'></support-ico>
+                        <span class="text">{{item.description}}</span>
+                        </li>
+                    </ul>
                 </div>
-                <ul v-if="seller.supports" class="supports">
-                    <li class="support-item border-1px" v-for="(item,index) in seller.supports" :key='index'>
-                    <support-ico class="icon" :size='2' :type='item.type'></support-ico>
-                    <span class="text">{{item.description}}</span>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
@@ -50,6 +52,7 @@
 import Star from '../star/star'
 import Split from '../split/split'
 import SupportIco from '../support-ico/support-ico'
+import BScroll from 'better-scroll'
 export default {
     name: 'Seller',
     props: {
@@ -64,12 +67,29 @@ export default {
         Star,
         Split,
         SupportIco
+    },
+    methods: {
+        _initScroll() {
+            if(!this.bulletinScroll) {
+                this.bulletinScroll = new BScroll(this.$refs['bulletin'],{
+                    click: true
+                })
+            } else {
+                this.bulletinScroll.refresh()
+            }
+        }
+    },
+    mounted() {
+        this.$nextTick(()=>{
+            this._initScroll()
+        })
     }
 }
 </script>
 
 <style lang="stylus">
 @import "../../common/stylus/mixin"
+
 .seller
     position: absolute 
     top: 174px
@@ -123,6 +143,11 @@ export default {
                     font-size: 24px
     .bulletin
         padding: 18px 18px 0 18px 
+        height: 340px
+        overflow: hidden
+        .bulletincontent
+            padding-top: 5px
+            padding-bottom: 50px
         .title
             margin-bottom: 8px
             line-height: 14px

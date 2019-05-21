@@ -1,4 +1,3 @@
-import BScroll from 'better-scroll';
 <template>
     <div class="ratings">
         <div class="ratings-content">
@@ -24,12 +23,58 @@ import BScroll from 'better-scroll';
                     </div>
                 </div> 
             </div>
+            <Split></Split>
+            <RatingSelect 
+                @changeRating='change' 
+                @changeonlyRatingContent='changeonlyContent' 
+                :selectType='selectType' 
+                :onlyContent='onlyContent' 
+                :desc='desc' 
+                :ratings='ratings'
+                class="ratingSelect"
+            ></RatingSelect>
+            <div class="rating-wrapper" ref='ratings'>
+                <div class="scroll">
+                    <div class="no-rating" v-show='!ratings'>暂无评价</div>
+                    <ul v-show='ratings && ratings.length'>
+                        <li 
+                            v-for='(rating,index) in ratings' 
+                            :key='index' 
+                            class="rating-item border-1px"
+                            v-show="needShow(rating.rateType,rating.text)">
+                            <div class="avater">
+                                <img width='28' height='28' :src="rating.avatar" alt="">
+                            </div>
+                            <div class="content">
+                                <h1 class="name">{{rating.username}}</h1>
+                                <div class="star-wrapper">
+                                    <Star class="star" :size='24' :score='rating.score'></Star><span class="delivery">{{rating.deliveryTime}}分钟</span>
+                                </div>
+                            </div>
+                            <p class="text">
+                                {{rating.text}}
+                            </p>
+                            <div class="recommend" v-show='rating.recommend && rating.recommend.length'>
+                                <span :class="rating.rateType===0?'icon-thumb_up':'icon-thumb_down'" ></span>
+                                <span v-for="(recommend,index) in rating.recommend" :key="index">{{recommend}}</span>	
+                            </div>
+                            <div class="time">{{rating.rateTime | formatDate}}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
-<script>
+<script scoped>
+    const POSITIVE = 0;
+    const NEGATIVE = 1;
+    const ALL = 2
 import Star from '../star/star'
+import Split from '../split/split'
+import RatingSelect from '../ratingselect/ratingselect'
+import BScroll from 'better-scroll';
 export default {
     name: 'Ratings',
     props: {
@@ -38,21 +83,80 @@ export default {
             default() {
                 return {}
             }
+        },
+        ratings: {
+            type: Object | Array,
+            default() {
+                return []
+            }
         }
     },
     components: {
-        Star
-    }
+        Star,
+        Split,
+        RatingSelect
+    },
+    data() {
+        return {
+            selectType: ALL,
+            onlyContent: true,
+            desc: {
+                all: '全部',
+                positive: '推荐',
+                negative: '吐槽'
+            }
+        }
+    },
+    methods: {
+        _initScroll() {
+            if(!this.ratingsScroll) {
+                this.ratingsScroll = new BScroll(this.$refs.ratings, {
+                    click: true,
+
+                })
+            } else {
+                this.ratingsScroll.refresh()
+            }
+        },
+        change(v) {
+            console.log('rest')
+            this.selectType = v
+            this.$nextTick(()=>{
+                this.ratingsScroll.refresh()
+            })
+        },
+        changeonlyContent(v) {
+            this.onlyContent = v
+            this.$nextTick(()=>{
+                this.ratingsScroll.refresh()
+            })
+        },
+        needShow(type,text) {
+            if(this.onlyContent && !text) {
+                return false
+            }
+            if(this.selectType === ALL) {
+                return true
+            } else {
+                return type === this.selectType
+            }
+        }
+    },
+    mounted() {
+        this.$nextTick(() => {
+            this._initScroll()
+        })
+    },
 }
 </script>
 
 <style lang="stylus" scoped>
+@import "../../common/stylus/mixin"
     .ratings
         position: absolute 
         top: 174px
         left: 0
         width: 100%
-        overflow: hidden
         .overview
             display: flex
             padding: 18px 0
@@ -110,5 +214,53 @@ export default {
                         font-size: 12px
                         line-height: 18px
                         color: rgb(147,153,159)
+        .ratingSelect
+            z-index: 200                                    
+        .rating-wrapper
+            padding: 0 18px
+            height: 300px
+            overflow: hidden
+            z-index: 40 
+            .scroll
+                padding-bottom: 130px
+            .rating-item
+                position: relative 
+                padding: 16px 0 
+                border-1px(rgba(7,17,27,0.1))
+                .user
+                    position: absolute 
+                    right: 0
+                    top: 16px
+                    font-size: 0
+                    line-height: 12px
+                    .name
+                        display: inline-block
+                        margin-right: 6px
+                        vertical-align: top
+                        font-size: 10px
+                        color: rgb(147,153,159)
+                    .avater
+                        border-radius: 50%
+                .time
+                    margin-bottom: 6px
+                    line-height: 12px
+                    font-size: 10px
+                    color: rgb(147,153,159)
+                .text
+                    line-height: 16px
+                    font-size: 12px
+                    color: rgb(7,17,27)
+                .icon-thumb_up, .icon-thumb_down
+                    line-height: 16px
+                    margin-right: 4px
+                    font-size: 12px
+                .icon-thumb_up
+                    color: rgb(0,160,220)
+                .icon-thumb_down
+                    color: rgb(147,153,159)
+            .no-rating
+                padding: 16px 0
+                font-size: 12px
+                color: rgb(147,153,159)
                     
 </style>

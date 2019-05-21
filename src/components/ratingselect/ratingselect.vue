@@ -52,18 +52,12 @@ export default {
     },
     methods: {
         select(v,event) {
-            if(!event._constructed) {
-                return 
-            }
             this.Type = v
-            this.$emit('change',v)
+            this.$emit('changeRating',v)
         },
         toggleContent(event) {
-            if(!event._constructed) {
-                return 
-            }
             this.only = !this.only
-            this.$emit('changeonlyContent', this.only)
+            this.$emit('changeonlyRatingContent', this.only)
         }
     },
     mounted() {

@@ -26,7 +26,7 @@ export default {
     return {
       seller: {},
       goods: {},
-      ratings: {}
+      ratings: []
     }
   },
   components: {

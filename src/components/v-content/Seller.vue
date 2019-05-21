@@ -55,6 +55,15 @@
                             </ul>
                         </div>
                     </div>
+                    <Split></Split>
+                    <div class="info">
+                        <h1 class="title border-1px">商家信息</h1>
+                        <ul>
+                            <li class="info-item" v-for='(info,index) in seller.infos' :key='index'>
+                                {{info}}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -226,4 +235,20 @@ export default {
                             height: 90px
                             &:last-child
                                 margin: 0
+            .info
+                padding: 18px 18px 0 18px
+                color: rgb(7,17,27)
+                .title
+                    margin-bottom: 12px
+                    line-height: 14px
+                    color: rgb(7,17,27)
+                    font-size: 14px
+                    border-1px(rgba(7,17,27,0.1))
+                .info-item
+                    padding: 16px 12px
+                    line-height: 16px
+                    border-1px(rgba(7,17,27,0.1))
+                    font-size: 12px
+                    &:last-child
+                        border-none()
 </style>

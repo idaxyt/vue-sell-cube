@@ -39,10 +39,10 @@ export default {
     VHeader
   },
   created() {
-    this.$http.get('/api/seller').then((res) => {
+    this.$http.get('/api/seller?id='+this.seller.id).then((res) => {
       res = res.body
       if(res.errno===ERR_OK) {
-          this.seller = res.data
+          this.seller = Object.assign({},this.seller,res.data)
       }
     }),
     this.$http.get('api/goods').then((res) => {

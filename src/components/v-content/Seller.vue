@@ -79,6 +79,7 @@ import Star from '../star/star'
 import Split from '../split/split'
 import SupportIco from '../support-ico/support-ico'
 import BScroll from 'better-scroll'
+import { saveToLocal } from '../../common/store/index'
 export default {
     name: 'Seller',
     props: {
@@ -131,6 +132,7 @@ export default {
         },
         toggleFavorite(event) {
             this.favorite = !this.favorite
+            saveToLocal(this.seller.id,'favorite',this.favorite)
         }
     },
     mounted() {

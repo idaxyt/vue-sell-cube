@@ -198,9 +198,10 @@ export default {
                     font-size: 24px
         .favorite
             position: absolute
-            right: 18px
+            width: 50px
+            right: 11px
             top: 18px
-            text-align: center
+            // text-align: center
             .icon-favorite
                 display: block
                 font-size: 24px

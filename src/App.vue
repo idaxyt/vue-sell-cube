@@ -43,7 +43,6 @@ export default {
     VHeader
   },
   created() {
-    console.log(getSeller())
     getSeller().then((seller) => {
       this.seller = seller
     })

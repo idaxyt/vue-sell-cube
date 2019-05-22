@@ -13,7 +13,7 @@
             </div>
             <ul v-if="seller.supports" class="supports">
                 <li class="support-item" v-for="(item,index) in seller.supports" :key='index'>
-                <SupportIco class="icon" :size='2' :type='item.type'></SupportIco>
+                <support-Ico class="icon" :size='2' :type='item.type'></support-ico>
                 <span class="text">{{item.description}}</span>
                 </li>
             </ul>
@@ -55,7 +55,7 @@ export default {
     components: {
         SupportIco,
         Star
-  }
+    }
 }
 </script>
 

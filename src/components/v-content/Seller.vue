@@ -79,7 +79,7 @@ import Star from '../star/star'
 import Split from '../split/split'
 import SupportIco from '../support-ico/support-ico'
 import BScroll from 'better-scroll'
-import { saveToLocal } from '../../common/store/index'
+import { saveToLocal,loadFromLocal } from '../../common/store/index'
 export default {
     name: 'Seller',
     props: {
@@ -97,7 +97,9 @@ export default {
     },
     data() {
         return {
-            favorite: false,
+            favorite: (()=>{
+               return loadFromLocal(this.seller.id,'favorite',false)
+            })()
         }
     },
     computed: {

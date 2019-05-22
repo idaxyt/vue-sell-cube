@@ -22,9 +22,7 @@
 import VHeader from './components/v-header/v-header'
 import { getSeller, getGoods, getRatings } from './api'
 import { urlParse } from './utils/index'
-import axois from 'axios'
 //OK状态码
-const ERR_OK = 0
 export default {
   name: "app",
   data() {

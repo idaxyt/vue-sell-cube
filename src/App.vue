@@ -18,13 +18,19 @@
 
 <script>
 import VHeader from './components/v-header/v-header'
+import { urlParse } from './utils/index'
 //OK状态码
 const ERR_OK = 0
 export default {
   name: "app",
   data() {
     return {
-      seller: {},
+      seller: {
+        id: (() => {
+          let queryParam = urlParse()
+          return queryParam.id
+        })()
+      },
       goods: {},
       ratings: []
     }

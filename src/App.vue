@@ -20,7 +20,9 @@
 
 <script>
 import VHeader from './components/v-header/v-header'
+import { getSeller, getGoods, getRatings } from './api'
 import { urlParse } from './utils/index'
+import axois from 'axios'
 //OK状态码
 const ERR_OK = 0
 export default {
@@ -41,23 +43,15 @@ export default {
     VHeader
   },
   created() {
-    this.$http.get('/api/seller?id='+this.seller.id).then((res) => {
-      res = res.body
-      if(res.errno===ERR_OK) {
-          this.seller = Object.assign({},this.seller,res.data)
-      }
-    }),
-    this.$http.get('api/goods').then((res) => {
-      res = res.body
-      if(res.errno == ERR_OK) {
-        this.goods = res.data
-      }
-    }),
-    this.$http.get('api/ratings').then((res) => {
-      res = res.body
-      if(res.errno == ERR_OK) {
-        this.ratings = res.data
-      }
+    console.log(getSeller())
+    getSeller().then((seller) => {
+      this.seller = seller
+    })
+    getGoods().then((goods) => {
+      this.goods = goods
+    })
+    getRatings().then((ratings) => {
+      this.ratings = ratings
     })
   }
 };

@@ -239,11 +239,10 @@ export default {
                 padding: 18px 18px 0 18px
                 color: rgb(7,17,27)
                 .title
-                    margin-bottom: 12px
+                    padding-bottom: 12px
                     line-height: 14px
                     color: rgb(7,17,27)
                     font-size: 14px
-                    border-1px(rgba(7,17,27,0.1))
                 .info-item
                     padding: 16px 12px
                     line-height: 16px

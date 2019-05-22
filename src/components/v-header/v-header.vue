@@ -15,12 +15,12 @@
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
       </div>
-      <div v-if="seller.supports" class="support-count" @click='detailShow=true'>
+      <div v-if="seller.supports" class="support-count" @click='detailShow'>
         <span class="count">{{seller.supports.length}}个</span>
         <i class="icon-keyboard_arrow_right"></i>
       </div>
     </div>
-    <div class="bulletin-wrapper"  @click='detailShow=true'>
+    <div class="bulletin-wrapper"  @click='detailShow'>
       <span class="bulletin-title"></span>
       <span class="bulletin-text">{{seller.bulletin}}</span>
       <i class="icon-keyboard_arrow_right"></i>
@@ -28,45 +28,11 @@
     <div class="background">
       <img :src="seller.avatar" width="100%" height="100%">
     </div>
-    <div class="detail" v-show='detailShow'>
-      <div class="detail-wrapper clearfix">
-        <div class="detail-main">
-          <h1 class="name">{{seller.name}}</h1>
-          <div class="star-wrapper">
-            <star :size='48' :score='seller.score'></star>
-          </div>
-          <div class="title">
-            <div class="line"></div>
-            <div class="text">优惠信息</div>
-            <div class="line"></div>
-          </div>
-          <ul v-if="seller.supports" class="supports">
-            <li class="support-item" v-for="(item,index) in seller.supports" :key='index'>
-              <support-ico class="icon" :size='2' :type='item.type'></support-ico>
-              <span class="text">{{item.description}}</span>
-            </li>
-          </ul>
-          <div class="title">
-            <div class="line"></div>
-            <div class="text">商家公告</div>
-            <div class="line"></div>
-          </div>
-          <div class="bulletin">
-            <p class="content">{{seller.bulletin}}</p>
-          </div>
-        </div>
-      </div>
-      <!-- 固定在浮窗底部的close按钮，采用css sticky footer布局 -->
-      <div class="detail-close" @click='detailShow=false'>
-        <i class="icon-close"></i>
-      </div>
-    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import SupportIco from '../support-ico/support-ico'
-import Star from '../star/star'
 export default {
   name: 'v-header',
   props: {
@@ -79,12 +45,21 @@ export default {
   },
   data() {
     return {
-      detailShow: false
+    }
+  },
+  methods: {
+    detailShow() {
+      let that = this
+      this.HeaderDetailCamp = this.HeaderDetailCamp || this.$createHeaderDetail({
+        $props: {
+          seller: that.seller
+        }
+      })
+      this.HeaderDetailCamp.detailShow = true
     }
   },
   components: {
     SupportIco,
-    Star
   }
 }
 </script>

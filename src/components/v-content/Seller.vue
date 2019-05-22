@@ -28,6 +28,10 @@
                         </div>
                     </li>
                 </ul>
+                <div class="favorite" @click='toggleFavorite'>
+                    <span class="icon-favorite" :class="favorite?'active':''"></span>
+                    <span class="text">{{favoriteText}}</span>
+                </div>
             </div>
             <Split></Split>
             <div class="scroll" ref='bulletinscroll'>
@@ -90,6 +94,16 @@ export default {
         Split,
         SupportIco
     },
+    data() {
+        return {
+            favorite: false,
+        }
+    },
+    computed: {
+        favoriteText() {
+            return this.favorite?'已收藏':'收藏'
+        }
+    },
     methods: {
         _initScroll() {
             if(this.seller.pics) {
@@ -114,6 +128,9 @@ export default {
             } else {
                 this.picScroll.refresh()
             }
+        },
+        toggleFavorite(event) {
+            this.favorite = !this.favorite
         }
     },
     mounted() {
@@ -136,6 +153,7 @@ export default {
     overflow: hidden
     .overview
         padding: 18px
+        position: relative
         .title
             margin-bottom: 8px
             line-height: 14px
@@ -178,6 +196,21 @@ export default {
                 color: rgb(7,17,27)
                 .stress
                     font-size: 24px
+        .favorite
+            position: absolute
+            right: 18px
+            top: 18px
+            text-align: center
+            .icon-favorite
+                display: block
+                font-size: 24px
+                color: #d4d6d9
+                &.active
+                    color: rgb(240,20,20)
+            .text
+                line-height: 10px
+                font-size: 10px
+                color: rgb(77,85,93)      
     .scroll
         overflow: hidden
         height: 340px

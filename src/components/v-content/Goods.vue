@@ -70,10 +70,16 @@ export default {
     name: 'Goods',
     props: {
         goods: {
-            type: Array | Object
+            type: Array | Object,
+            default() {
+                return []
+            }
         },
         seller: {
-            type: Object
+            type: Object,
+            default() {
+                return {}
+            }
         }
     },
     data() {

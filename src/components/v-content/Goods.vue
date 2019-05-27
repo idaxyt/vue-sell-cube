@@ -51,8 +51,8 @@
                     </span>
                 </li>
             </ul>
-        </div>
-        <div class="foods-wrapper" ref='foodsWrapper'>
+        </div> -->
+        <!-- <div class="foods-wrapper" ref='foodsWrapper'>
             <ul>
                 <li 
                     v-for="(item,index) in goods" 
@@ -90,9 +90,11 @@
                     </ul>
                 </li>
             </ul>
+        </div> -->
+        <div class="shop-cart-wrapper">
+            <ShopCart :seller='seller' :select-foods='selectedFoods' ref='shopcart'></ShopCart>
         </div>
-        <ShopCart :seller='seller' :select-foods='selectedFoods' ref='shopcart'></ShopCart>
-        <Food :food='selectedFood' v-model="chooseFood"></Food> -->
+        <!-- <Food :food='selectedFood' v-model="chooseFood"></Food> -->
     </div>
 </template>
 
@@ -102,7 +104,6 @@ import BScroll from 'better-scroll'
 import ShopCart from '../shopCart/ShopCart'
 import CartControl from '../cartControl/CartControl'
 import Food from '../food/food'
-import { getGoods } from "../../api"
 export default {
     name: 'Goods',
     props: {
@@ -128,8 +129,7 @@ export default {
     data() {
         return {
             Index: 0,
-            goods: [],
-            seller: this.data.seller,
+            // goods: [],
             scrollOptions: {
                 click: false,
                 directionLockThreshold: 0
@@ -150,6 +150,12 @@ export default {
         Food
     },
     computed: {
+        seller() {
+            return this.data.seller
+        },
+        goods() {
+            return this.data.goods
+        },
         selectedFoods() {
             let foods = []
             this.goods.forEach((good)=>{
@@ -163,11 +169,6 @@ export default {
         }
     },
     methods: {
-        fetch() {
-            getGoods().then((goodsData)=>{
-                this.goods = goodsData
-            })
-        }
         // _initScroll() {
         //     this.menuScroll = new BScroll(this.$refs.menuWrapper,{
         //         click: true
@@ -332,13 +333,13 @@ export default {
     //         position: absolute
     //         right: 0
     //         bottom: 12px
-    // .shop-cart-wrapper
-    //     position: absolute
-    //     left: 0
-    //     bottom: 0
-    //     z-index: 50
-    //     width: 100%
-    //     height: 48px
+    .shop-cart-wrapper
+        position: absolute
+        left: 0
+        bottom: 0
+        z-index: 50
+        width: 100%
+        height: 48px
         // .goods
         //     display: flex
         //     position: absolute 

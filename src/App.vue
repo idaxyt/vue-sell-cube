@@ -2,7 +2,7 @@
   <div id="app">
     <v-header :seller='seller'></v-header>
     <div class="tab-wrapper">
-      <v-tab :goodsData='goods' :sellerData='seller' :ratingsData='ratings'></v-tab>
+      <v-tab :tabs='tabs' :initialIndex=1></v-tab>
     </div>
     <!-- <div class="tab border-1px">
       <div class="tab-item">
@@ -24,6 +24,9 @@
 <script>
 import VHeader from './components/v-header/v-header'
 import VTab from './components/tab/Tab'
+import VGoods from './components/v-content/Goods'
+import VRatings from './components/v-content/Ratings'
+import VSeller from './components/v-content/Seller'
 import { getSeller, getGoods, getRatings } from './api'
 import { urlParse } from './utils/index'
 //OK状态码
@@ -38,12 +41,41 @@ export default {
         })()
       },
       goods: [],
-      ratings: []
+      ratings: [],
     }
   },
   components: {
     VHeader,
     VTab
+  },
+  computed: {
+    tabs() {
+      return [
+        {
+          label: '商品',
+          component: VGoods,
+          data: {
+            goods: this.goods,
+            seller: this.seller
+          }
+        },
+        {
+          label: '评价',
+          component: VRatings,
+          data: {
+            ratingd: this.ratings,
+            seller: this.seller
+          }
+        },
+        {
+          label: '商家',
+          component: VSeller,
+          data: {
+            seller: this.seller
+          }
+        },
+      ]
+    } 
   },
   created() {
     getSeller().then((seller) => {

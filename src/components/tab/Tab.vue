@@ -18,17 +18,8 @@
                 :options='slideOptions'
                 @change='onChange'
                 @scroll="onScroll">
-                <cube-slide-item>
-                    23
-                    <!-- <VGoods :goods='goodsData' :seller='sellerData'></VGoods> -->
-                </cube-slide-item>
-                <cube-slide-item>
-                    565
-                    <!-- <v-ratings :seller='sellerData' :rating='ratingsData'></v-ratings> -->
-                </cube-slide-item>
-                <cube-slide-item>
-                    454
-                    <!-- <v-seller :seller='sellerData'></v-seller> -->
+                <cube-slide-item v-for="(tab,index) in tabs" :key='index'>
+                    <component :is="tab.component" :data='tab.data'></component>
                 </cube-slide-item>
             </cube-slide>
         </div>
@@ -36,51 +27,29 @@
 </template>
 
 <script>
-import VGoods from '../v-content/Goods'
-import VRatings from '../v-content/Ratings'
-import VSeller from '../v-content/Seller'
+
 export default {
     name: 'Tab',
+    props: {
+        tabs: {
+            type: Array,
+            default() {
+                return []
+            }
+        },
+        initialIndex: {
+            type: Number,
+            default: 0
+        }
+    },
     data() {
         return {
-            index: 0,
+            index: this.initialIndex,
             showSlider: false,
-            tabs: [{
-                label: '商品',
-            },{
-                label: '评价'
-            },{
-                label: '商家'
-            }],
             slideOptions: {
                 listenScroll: true,
                 probeType: 3,
                 directionLockThreshold: 0
-            }
-        }
-    },
-    components: {
-        VSeller,
-        VRatings,
-        VGoods
-    },
-    props: {
-        goodsData: {
-            type: Array | Object,
-            default() {
-                return []
-            } 
-        },
-        sellerData: {
-            type: Object,
-            default() {
-                return {}
-            }
-        },
-        ratingsData: {
-            type: Object | Array,
-            default() {
-                return []
             }
         }
     },

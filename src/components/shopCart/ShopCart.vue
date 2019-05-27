@@ -30,7 +30,7 @@
                         <div class="inner inner-hook"></div>
                     </div>
                 </transition-group>
-            </div>
+            </div> -->
             <transition>
                 <div class="shopcart-list" v-show='listShow' transition='fold'>
                     <div class="list-header">
@@ -51,11 +51,11 @@
                         </ul>
                     </div>
                 </div>
-            </transition> -->
+            </transition>
         </div>
-        <!-- <transition>
+        <transition>
             <div class="list-mask" @click='hideList' v-show='listShow' transition='fade'></div>
-        </transition> -->
+        </transition>
     </div>
 </template>
 
@@ -132,26 +132,26 @@ export default {
                 return 'enough'
             }
         },
-        // listShow() {
-        //     if(!this.totalCount) {
-        //         this.fold = true
-        //         return false
-        //     } 
-        //     let show = !this.fold
-        //     if(show) {
-        //         this.$nextTick(()=>{
-        //             if(!this.scroll) {
-        //                 this.scroll = new BScroll(this.$refs['list'],{
-        //                     click: true
-        //                 })
-        //             } else{
-        //                 this.scroll.refresh()
-        //             }
+        listShow() {
+            if(!this.totalCount) {
+                this.fold = true
+                return false
+            } 
+            let show = !this.fold
+            if(show) {
+                this.$nextTick(()=>{
+                    if(!this.scroll) {
+                        this.scroll = new BScroll(this.$refs['list'],{
+                            click: true
+                        })
+                    } else{
+                        this.scroll.refresh()
+                    }
 
-        //         })
-        //     }
-        //     return show
-        // }
+                })
+            }
+            return show
+        }
     }, 
     methods: {
         // drop(el) {
@@ -171,14 +171,14 @@ export default {
             }
             this.fold = !this.fold
         },
-        // empty() {
-        //     this.selectFoods.forEach((food,index) => {
-        //         food.count = 0
-        //     })
-        // },
-        // hideList() {
-        //     this.fold = true
-        // },
+        empty() {
+            this.selectFoods.forEach((food,index) => {
+                food.count = 0
+            })
+        },
+        hideList() {
+            this.fold = true
+        },
         pay() {
             if(this.totalPrice<this.minPrice) {
                 return

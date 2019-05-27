@@ -1,11 +1,11 @@
 <template>
     <div class="cart-control">
-        <transition>
+        <transition name='move'>
             <div 
                 class="cart-decrease" 
                 v-show='food.count>0' 
                 @click.stop.prevent='decreaseCart($event)'
-                transition='move'>
+                >
                     <span class="inner icon-remove_circle_outline"></span>
             </div>
         </transition>
@@ -29,7 +29,7 @@ export default {
                 return
             }
             if(!this.food.count) {
-                Vue.set(this.food,'count',1)
+                this.$set(this.food,'count',1)
             } else {
                 this.food.count++
             }
@@ -48,6 +48,7 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
+@import "~common/stylus/variable"
 .cart-control
     .v-enter, .v-leave-to 
         opacity: 0
@@ -59,8 +60,8 @@ export default {
         padding: 6px
         .inner
             display: inline-block
-            line-height: 24px
-            font-size: 24px
+            line-height: $fontsize-large-xxx
+            font-size: $fontsize-large-xxx
             color: rgb(0,160,220)
             transform: rotate(0)    
 
@@ -70,15 +71,14 @@ export default {
         width: 12px
         font-size: 12px
         padding-top: 6px
-        line-height: 24px
+        line-height: $fontsize-large-xxx
         text-align: center
         color: rgb(147,153,159)
     .cart-add
         display: inline-block
-        display: inline-block
         padding: 6px
-        line-height: 24px
-        font-size: 24px
+        line-height: $fontsize-large-xxx
+        font-size:  $fontsize-large-xxx
         color: rgb(0,160,220)
 </style>
 

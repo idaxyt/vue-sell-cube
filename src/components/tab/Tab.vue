@@ -78,6 +78,9 @@ export default {
             this.$refs.tabBar.setSliderTransform(transform)
         }
     },
+    mounted() {
+        this.onChange(this.index)
+    }
 }
 </script>
 

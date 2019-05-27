@@ -69,22 +69,30 @@ import Food from '../food/food'
 export default {
     name: 'Goods',
     props: {
-        goods: {
-            type: Array | Object,
-            default() {
-                return []
-            }
-        },
-        seller: {
+        data: {
             type: Object,
             default() {
                 return {}
             }
         }
+        // goods: {
+        //     type: Array | Object,
+        //     default() {
+        //         return []
+        //     }
+        // },
+        // seller: {
+        //     type: Object,
+        //     default() {
+        //         return {}
+        //     }
+        // }
     },
     data() {
         return {
             Index: 0,
+            goods: this.data.goods,
+            seller: this.data.seller,
             touchStatus: false,
             scrollY: 0,
             CurrentIndex: 0,
@@ -190,8 +198,8 @@ export default {
 .goods
     display: flex
     position: absolute 
-    top: 177px
-    bottom: 46px
+    // top: 177px
+    // bottom: 46px
     width: 100%
     overflow: hidden
     .menu-wrapper

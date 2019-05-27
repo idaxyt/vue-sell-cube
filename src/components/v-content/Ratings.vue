@@ -78,18 +78,24 @@ import BScroll from 'better-scroll';
 export default {
     name: 'Ratings',
     props: {
-        seller: {
-            type: Array | Object,
+        data: {
+            type: Object,
             default() {
                 return {}
             }
-        },
-        ratings: {
-            type: Object | Array,
-            default() {
-                return []
-            }
         }
+        // seller: {
+        //     type: Array | Object,
+        //     default() {
+        //         return {}
+        //     }
+        // },
+        // ratings: {
+        //     type: Object | Array,
+        //     default() {
+        //         return []
+        //     }
+        // }
     },
     components: {
         Star,
@@ -98,6 +104,8 @@ export default {
     },
     data() {
         return {
+            seller: this.data.seller,
+            ratings: this.data.ratings,
             selectType: ALL,
             onlyContent: true,
             desc: {

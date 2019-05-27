@@ -83,12 +83,18 @@ import { saveToLocal,loadFromLocal } from '../../common/store/index'
 export default {
     name: 'Seller',
     props: {
-        seller: {
+        data: {
             type: Object,
             default() {
                 return {}
             }
         }
+        // seller: {
+        //     type: Object,
+        //     default() {
+        //         return {}
+        //     }
+        // }
     },
     components: {
         Star,
@@ -97,9 +103,10 @@ export default {
     },
     data() {
         return {
+            seller: this.data.seller,
             favorite: (()=>{
-               return loadFromLocal(this.seller.id,'favorite',false)
-            })()
+               return loadFromLocal(this.data.seller.id,'favorite',false)
+            })(),
         }
     },
     computed: {

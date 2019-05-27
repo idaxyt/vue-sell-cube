@@ -5,6 +5,7 @@
             v-model='selectedLabel'
             :data='tabs'
             ref='tabBar'
+            :useTransition='false'
             class="border-bottom-1px">
         </cube-tab-bar>
         <div class="slide-wrapper">
@@ -14,15 +15,20 @@
                 :show-dots='false'
                 :initial-index='index'
                 ref='slide'
-                @change='onChange'>
+                :options='slideOptions'
+                @change='onChange'
+                @scroll="onScroll">
                 <cube-slide-item>
-                    <v-goods :goods='goodsData' :seller='sellerData'></v-goods>
+                    23
+                    <!-- <VGoods :goods='goodsData' :seller='sellerData'></VGoods> -->
                 </cube-slide-item>
                 <cube-slide-item>
-                    <v-ratings :seller='sellerData' :rating='ratingsData'></v-ratings>
+                    565
+                    <!-- <v-ratings :seller='sellerData' :rating='ratingsData'></v-ratings> -->
                 </cube-slide-item>
                 <cube-slide-item>
-                    <v-seller :seller='sellerData'></v-seller>
+                    454
+                    <!-- <v-seller :seller='sellerData'></v-seller> -->
                 </cube-slide-item>
             </cube-slide>
         </div>
@@ -45,7 +51,12 @@ export default {
                 label: '评价'
             },{
                 label: '商家'
-            }]
+            }],
+            slideOptions: {
+                listenScroll: true,
+                probeType: 3,
+                directionLockThreshold: 0
+            }
         }
     },
     components: {
@@ -88,6 +99,12 @@ export default {
     methods: {
         onChange(current) {
             this.index = current
+        },
+        onScroll(pos) {
+            const tabBarWidth = this.$refs.tabBar.$el.clientWidth
+            const slideWidth = this.$refs.slide.slide.scrollerWidth
+            const transform = -pos.x/slideWidth*tabBarWidth
+            this.$refs.tabBar.setSliderTransform(transform)
         }
     },
 }
@@ -109,6 +126,7 @@ export default {
     .slide-wapper {
         flex: 1
         overflow: hidden
+        height: 100%
     }
 }  
 </style>

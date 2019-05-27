@@ -9,7 +9,7 @@
                     <span class="inner icon-remove_circle_outline"></span>
             </div>
         </transition>
-        <div class="cart-count" v-show='food.count>0'>{{food.count}}</div>
+            <div class="cart-count" v-show='food.count>0'>{{food.count}}</div>
         <div class="cart-add icon-add_circle" @click.stop.prevent='addCart($event)'></div>
     </div>
 </template>
@@ -62,7 +62,7 @@ export default {
             transform: rotate(0)    
         //transition动画样式
         &.move-enter-active, &.move-leave-active
-            transition: all 0.4s linear 
+            transition: all 0.05s linear 
         &.move-enter, &.move-leave-to
             opacity: 1
             transform: translate3d(24px,0,0)

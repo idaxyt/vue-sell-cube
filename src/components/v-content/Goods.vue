@@ -31,7 +31,8 @@
                                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                                 </div>
                                 <div class="cartcontrol-wrapper">
-                                    <CartControl :food="food" @cartadd='cartadd'></CartControl>
+                                    <CartControl :food="food" ></CartControl>
+                                    <!-- <CartControl :food="food" @cartadd='cartadd'></CartControl> -->
                                 </div>
                             </div>
                         </li>
@@ -116,18 +117,6 @@ export default {
                 return {}
             }
         }
-        // goods: {
-        //     type: Array | Object,
-        //     default() {
-        //         return []
-        //     }
-        // },
-        // seller: {
-        //     type: Object,
-        //     default() {
-        //         return {}
-        //     }
-        // }
     },
     data() {
         return {
@@ -221,12 +210,12 @@ export default {
         // handleTouchEnd() {
         //     this.touchStatus = false
         // },
-        // cartadd(target) {
-        //     // 体验优化，异步执行下落动画
-        //     this.$nextTick(() => {
-        //         this.$refs['shopcart'].drop(target)
-        //     })
-        // },
+        cartadd(target) {
+            // 体验优化，异步执行下落动画
+            this.$nextTick(() => {
+                this.$refs['shopcart'].drop(target)
+            })
+        },
         // selectFood(food,event) {
         //     if(!event._constructed) {
         //         return

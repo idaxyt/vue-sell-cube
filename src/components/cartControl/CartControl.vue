@@ -50,21 +50,24 @@ export default {
 <style lang='stylus' scoped>
 @import "~common/stylus/variable"
 .cart-control
-    .v-enter, .v-leave-to 
-        opacity: 0
-        transform: rotate(180deg)
-    .v-enter-active, .v-leave-active 
-        transition: opacity 0.2s
     .cart-decrease
         display: inline-block
         padding: 6px
+        opacity: 1
         .inner
             display: inline-block
             line-height: $fontsize-large-xxx
             font-size: $fontsize-large-xxx
             color: rgb(0,160,220)
             transform: rotate(0)    
-
+        //transition动画样式
+        &.move-enter-active, &.move-leave-active
+            transition: all 0.4s linear 
+        &.move-enter, &.move-leave-to
+            opacity: 1
+            transform: translate3d(24px,0,0)
+            .inner
+                transform: rotate(180deg)
     .cart-count
         display: inline-block
         vertical-align: top

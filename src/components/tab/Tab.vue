@@ -9,10 +9,12 @@
         </cube-tab-bar>
         <div class="slide-wrapper">
             <cube-slide 
-                :loop=false
-                :auto-play=false
-                :show-dots=false
-                :initial-index='index'>
+                :loop='false'
+                :auto-play='false'
+                :show-dots='false'
+                :initial-index='index'
+                ref='slide'
+                @change='onChange'>
                 <cube-slide-item>
                     <v-goods :goods='goodsData' :seller='sellerData'></v-goods>
                 </cube-slide-item>
@@ -83,22 +85,30 @@ export default {
             }
         }
     },
+    methods: {
+        onChange(current) {
+            this.index = current
+        }
+    },
 }
 </script>
 
-<style lang="stylus">
-    @import '~common/stylus/variable'
+<style lang="stylus" scoped>
+@import '~common/stylus/variable'
 
-    .tab
-        >>> .cube-tab
-            padding: 10px 0
-        >>> .tab-color: grey
-        >>> .tab-active-color: rgb(240,20,20)
-        // >>> .tab-slide-bgc: rgb(240,20,20)
-        display: flex
-        flex-direction: column
-        height: 100%
-        .slide-wapper
-            flex: 1
-            overflow: hidden
+.tab >>> .cube-tab {
+    padding: 10px 0
+}
+// .tab >>> .tab-color: grey
+.tab >>> .cube-tab-bar-slider: rgb(240,20,20)
+    // >>> .tab-slide-bgc: rgb(240,20,20)
+.tab {
+    display: flex
+    flex-direction: column
+    height: 100%
+    .slide-wapper {
+        flex: 1
+        overflow: hidden
+    }
+}  
 </style>

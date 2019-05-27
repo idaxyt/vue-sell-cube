@@ -7,7 +7,9 @@
                         <div class="logo" :class="{'highlight': totalCount>0}">
                             <span class="icon-shopping_cart" :class="{'highlight': totalCount>0}"></span>
                         </div>
-                        <div class="num" v-show='totalCount>0'>{{totalCount}}</div>
+                        <div class="num" v-show='totalCount>0'>
+                            <bubble :num='totalCount'></bubble>
+                        </div>
                     </div>
                     <div class="price" :class="{'highlight': totalPrice>0}">￥{{totalPrice}}</div>
                     <div class="desc">另需配送费￥{{seller.deliveryPrice}}元</div>
@@ -60,6 +62,7 @@
 <script>
 import BScroll from 'better-scroll'
 import CartControl from '../cartControl/CartControl'
+import Bubble from "../bubble/Bubble"
 export default {
     name: 'ShopCart',
     props: {
@@ -72,7 +75,8 @@ export default {
         }
     },
     components: {
-        CartControl
+        CartControl,
+        Bubble
     },
     data() {
         return {
@@ -275,16 +279,6 @@ export default {
                     position: absolute
                     top: 0
                     right: 0
-                    width: 24px
-                    height: 16px
-                    line-height: 16px
-                    text-align: center
-                    border-radius: 16px
-                    font-size: 9px
-                    font-weight: 700
-                    color: white
-                    border-shadow: 0 4px 8px 0 rgba(0,0,0,0.4)
-                    background: rgb(240,20,20)
             .price
                 display: inline-block
                 vertical-align: top

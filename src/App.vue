@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <v-header :seller='seller'></v-header>
-    <div class="tab border-1px">
+    <div class="tab-wrapper">
+      <v-tab :goodsData='goods' :sellerData='seller' :ratingsData='ratings'></v-tab>
+    </div>
+    <!-- <div class="tab border-1px">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
       </div>
@@ -14,12 +17,13 @@
     </div>
     <keep-alive>
       <router-view :goods='goods' :seller='seller' :ratings='ratings'></router-view>
-    </keep-alive>
+    </keep-alive> -->
   </div>
 </template>
 
 <script>
 import VHeader from './components/v-header/v-header'
+import VTab from './components/tab/Tab'
 import { getSeller, getGoods, getRatings } from './api'
 import { urlParse } from './utils/index'
 //OK状态码
@@ -33,12 +37,13 @@ export default {
           return queryParam.id
         })()
       },
-      goods: {},
+      goods: [],
       ratings: []
     }
   },
   components: {
-    VHeader
+    VHeader,
+    VTab
   },
   created() {
     getSeller().then((seller) => {
@@ -61,20 +66,26 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  .tab
-    display: flex
-    width:  100%
-    height: 40px
-    line-height: 40px
-    border-1px(rgba(7,17,27,0.1))
-    .tab-item
-      text-align: center
-      flex: 1
-      a
-        display: block
-        text-decoration: none 
-        font-size: 14px
-        color: rgb(77,85,93)
-      .active
-        color: rgb(240,20,20)
+  // .tab
+  //   display: flex
+  //   width:  100%
+  //   height: 40px
+  //   line-height: 40px
+  //   border-1px(rgba(7,17,27,0.1))
+  //   .tab-item
+  //     text-align: center
+  //     flex: 1
+  //     a
+  //       display: block
+  //       text-decoration: none 
+  //       font-size: 14px
+  //       color: rgb(77,85,93)
+  //     .active
+  //       color: rgb(240,20,20)
+  .tab-wrapper
+    position: fixed
+    top: 136px
+    left: 0
+    right: 0
+    bottom: 0  
 </style>

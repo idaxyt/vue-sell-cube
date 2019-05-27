@@ -92,10 +92,9 @@ export default {
     display: flex
     flex-direction: column
     height: 100%
-    .slide-wapper {
+    .slide-wrapper {
         flex: 1
         overflow: hidden
-        height: 100%
     }
 }  
 </style>

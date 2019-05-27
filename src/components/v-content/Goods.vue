@@ -30,6 +30,9 @@
                                     <span class="now">￥{{food.price}}</span>
                                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                                 </div>
+                                <div class="cartcontrol-wrapper">
+                                    <CartControl :food="food" @cartadd='cartadd'></CartControl>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -329,10 +332,10 @@ export default {
                     text-decoration: line-through
                     font-size: $fontsize-small-s
                     color: $color-light-grey
-    //     .cart-control-wrapper
-    //         position: absolute
-    //         right: 0
-    //         bottom: 12px
+            .cartcontrol-wrapper
+                position: absolute
+                right: 0
+                bottom: 12px
     .shop-cart-wrapper
         position: absolute
         left: 0

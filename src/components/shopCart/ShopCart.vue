@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ball-container">
+            <!-- <div class="ball-container">
                 <transition-group>
                     <div
                         transition='drop' 
@@ -49,11 +49,11 @@
                         </ul>
                     </div>
                 </div>
-            </transition>
+            </transition> -->
         </div>
-        <transition>
+        <!-- <transition>
             <div class="list-mask" @click='hideList' v-show='listShow' transition='fade'></div>
-        </transition>
+        </transition> -->
     </div>
 </template>
 
@@ -114,7 +114,7 @@ export default {
         },
         payDesc() {
             if(this.totalPrice ===0 ) {
-                return `起送￥${this.seller.minPrice}元`
+                return `起送￥${this.seller.minPrice?this.seller.minPrice:''}元`
             } else if(this.totalPrice >= this.seller.minPrice) {
                 return `去结算`
             } else {
@@ -128,53 +128,53 @@ export default {
                 return 'enough'
             }
         },
-        listShow() {
-            if(!this.totalCount) {
-                this.fold = true
-                return false
-            } 
-            let show = !this.fold
-            if(show) {
-                this.$nextTick(()=>{
-                    if(!this.scroll) {
-                        this.scroll = new BScroll(this.$refs['list'],{
-                            click: true
-                        })
-                    } else{
-                        this.scroll.refresh()
-                    }
+        // listShow() {
+        //     if(!this.totalCount) {
+        //         this.fold = true
+        //         return false
+        //     } 
+        //     let show = !this.fold
+        //     if(show) {
+        //         this.$nextTick(()=>{
+        //             if(!this.scroll) {
+        //                 this.scroll = new BScroll(this.$refs['list'],{
+        //                     click: true
+        //                 })
+        //             } else{
+        //                 this.scroll.refresh()
+        //             }
 
-                })
-            }
-            return show
-        }
+        //         })
+        //     }
+        //     return show
+        // }
     }, 
     methods: {
-        drop(el) {
-            for(let i = 0; i< this.balls.length;i++) {
-                let ball = this.balls[i]
-                if(!ball.show) {
-                    ball.show = true
-                    ball.el = el
-                    this.dropBalls.push(ball)
-                    return
-                }
-            }
-        },
+        // drop(el) {
+        //     for(let i = 0; i< this.balls.length;i++) {
+        //         let ball = this.balls[i]
+        //         if(!ball.show) {
+        //             ball.show = true
+        //             ball.el = el
+        //             this.dropBalls.push(ball)
+        //             return
+        //         }
+        //     }
+        // },
         toggleList() {
             if(!this.totalCount) {
                 return 
             }
             this.fold = !this.fold
         },
-        empty() {
-            this.selectFoods.forEach((food,index) => {
-                food.count = 0
-            })
-        },
-        hideList() {
-            this.fold = true
-        },
+        // empty() {
+        //     this.selectFoods.forEach((food,index) => {
+        //         food.count = 0
+        //     })
+        // },
+        // hideList() {
+        //     this.fold = true
+        // },
         pay() {
             if(this.totalPrice<this.minPrice) {
                 return
@@ -182,45 +182,45 @@ export default {
         }
     },
     transitions: {
-        drop: {
-            beforeEnter(el) {
-                let count = this.balls.length
-                while(count--) {
-                    let ball = this.balls[count]
-                    if(ball.show) {
-                        let rect = ball.el.getBoundingClientRect()
-                        let x = rect.left - 32
-                        let y = -(window.innerHeight - rect.top - 32)
-                        el.style.display = ''
-                        el.style.webkitTransform = `translate3d(0,${y}px,0)`
-                        el.style.transform = `translate3d(0,${y}px,0)`
-                        let inner = el.getElementByClassName('inner-hook')[0]
-                        inner.style.webkitTransform = `translate3d(0,${y}px,0)`
-                        inner.style.transform = `translate3d(0,${y}px,0)`
-                    }
-                }
-            },
-            enter(el) {
-                /**
-                 * eslint-disable no-unused-vars
-                 */
-                let rf = el.offsetHeight
-                this.$nextTick(()=>{
-                    el.style.webkitTransform = 'translate3d(0,0,0)'
-                    el.style.transform = 'translate3d(0,0,0)'
-                    let inner = el.getElementByClassName('inner-hook')[0]
-                    inner.style.webkitTransform = 'translate3d(0,0,0)'
-                    inner.style.transform = 'translate3d(0,0,0)'
-                })
-            },
-            afterEnter(el) {
-                let ball = this.dropBalls.shift()
-                if(ball) {
-                    ball.show = false;
-                    el.style.display = 'none'
-                }
-            }
-        }
+        // drop: {
+        //     beforeEnter(el) {
+        //         let count = this.balls.length
+        //         while(count--) {
+        //             let ball = this.balls[count]
+        //             if(ball.show) {
+        //                 let rect = ball.el.getBoundingClientRect()
+        //                 let x = rect.left - 32
+        //                 let y = -(window.innerHeight - rect.top - 32)
+        //                 el.style.display = ''
+        //                 el.style.webkitTransform = `translate3d(0,${y}px,0)`
+        //                 el.style.transform = `translate3d(0,${y}px,0)`
+        //                 let inner = el.getElementByClassName('inner-hook')[0]
+        //                 inner.style.webkitTransform = `translate3d(0,${y}px,0)`
+        //                 inner.style.transform = `translate3d(0,${y}px,0)`
+        //             }
+        //         }
+        //     },
+        //     enter(el) {
+        //         /**
+        //          * eslint-disable no-unused-vars
+        //          */
+        //         let rf = el.offsetHeight
+        //         this.$nextTick(()=>{
+        //             el.style.webkitTransform = 'translate3d(0,0,0)'
+        //             el.style.transform = 'translate3d(0,0,0)'
+        //             let inner = el.getElementByClassName('inner-hook')[0]
+        //             inner.style.webkitTransform = 'translate3d(0,0,0)'
+        //             inner.style.transform = 'translate3d(0,0,0)'
+        //         })
+        //     },
+        //     afterEnter(el) {
+        //         let ball = this.dropBalls.shift()
+        //         if(ball) {
+        //             ball.show = false;
+        //             el.style.display = 'none'
+        //         }
+        //     }
+        // }
     }
 }
 </script>
@@ -236,7 +236,7 @@ export default {
     left: 0
     bottom: 0
     z-index: 50
-    width: 100%
+    width: 33.3%
     height: 48px
     .content
         display: flex

@@ -31,7 +31,7 @@
                     </div>
                 </transition-group>
             </div> -->
-            <transition>
+            <!-- <transition>
                 <div class="shopcart-list" v-show='listShow' transition='fold'>
                     <div class="list-header">
                         <h1 class="title">购物车</h1>
@@ -51,11 +51,8 @@
                         </ul>
                     </div>
                 </div>
-            </transition>
+            </transition> -->
         </div>
-        <transition>
-            <div class="list-mask" @click='hideList' v-show='listShow' transition='fade'></div>
-        </transition>
     </div>
 </template>
 
@@ -63,6 +60,7 @@
 import BScroll from 'better-scroll'
 import CartControl from '../cartControl/CartControl'
 import Bubble from "../bubble/Bubble"
+import ShopCartList from './shop-cart-list'
 export default {
     name: 'ShopCart',
     props: {
@@ -76,7 +74,8 @@ export default {
     },
     components: {
         CartControl,
-        Bubble
+        Bubble,
+        ShopCartList
     },
     data() {
         return {
@@ -98,7 +97,7 @@ export default {
                 },
             ],
             dropBalls: [],
-            fold: true
+            ListFold: true
         }
     },
     computed: {
@@ -131,26 +130,6 @@ export default {
             } else {
                 return 'enough'
             }
-        },
-        listShow() {
-            if(!this.totalCount) {
-                this.fold = true
-                return false
-            } 
-            let show = !this.fold
-            if(show) {
-                this.$nextTick(()=>{
-                    if(!this.scroll) {
-                        this.scroll = new BScroll(this.$refs['list'],{
-                            click: true
-                        })
-                    } else{
-                        this.scroll.refresh()
-                    }
-
-                })
-            }
-            return show
         }
     }, 
     methods: {
@@ -166,18 +145,27 @@ export default {
         //     }
         // },
         toggleList() {
-            if(!this.totalCount) {
-                return 
+            if(this.ListFold) {
+                if(!this.totalCount) {
+                    return
+                }
+                this.ListFold = false
+                this._showShopCartList()
+            } else {
+                this.ListFold = true
+                this._hideShopCartList()
             }
-            this.fold = !this.fold
         },
-        empty() {
-            this.selectFoods.forEach((food,index) => {
-                food.count = 0
+        _showShopCartList() {
+            this.shopCartListCamp = this.shopCartListCamp || this.$createShopCartList({
+                $props: {
+                    selectFoods: 'selectFoods'
+                }
             })
+            this.shopCartListCamp.show()
         },
-        hideList() {
-            this.fold = true
+        _hideShopCartList() {
+            this.shopCartListCamp.hide()
         },
         pay() {
             if(this.totalPrice<this.minPrice) {

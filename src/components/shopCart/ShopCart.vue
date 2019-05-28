@@ -160,6 +160,11 @@ export default {
             this.shopCartListCamp = this.shopCartListCamp || this.$createShopCartList({
                 $props: {
                     selectFoods: 'selectFoods'
+                },
+                $events: {
+                    hide: () => {
+                        this.ListFold = true
+                    }
                 }
             })
             this.shopCartListCamp.show()

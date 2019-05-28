@@ -4,6 +4,7 @@
             ref='shopCart'
             :selectFoods='selectFoods'
             :seller='seller'
+            :fold='fold'
         >
 
         </shop-cart>
@@ -26,6 +27,10 @@ export default {
             default() {
                 return {}
             }
+        },
+        fold: {
+            type: Boolean,
+            default: true
         }
     },
     components: {

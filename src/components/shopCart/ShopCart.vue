@@ -70,6 +70,10 @@ export default {
             default() {
                 return []
             }
+        },
+        fold: {
+            type: Boolean,
+            default: true
         }
     },
     components: {
@@ -97,7 +101,7 @@ export default {
                 },
             ],
             dropBalls: [],
-            ListFold: true
+            ListFold: this.fold
         }
     },
     computed: {
@@ -148,20 +152,24 @@ export default {
         //         }
         //     }
         // },
+        // 控制购物栏展示,隐藏或显示已购买列表
         toggleList() {
+            // 购物栏呈关闭状态,再次点击显示
             if(this.ListFold) {
                 if(!this.totalCount) {
+                    // 购物数量为空时,返回
                     return
                 }
-                this.ListFold = false
-                this._showShopCartList()
-                this._showShopCartSticky()
+                this.ListFold = false // 设置购物栏为打开状态
+                this._showShopCartList() // 显示购物列表
+                this._showShopCartSticky() // 显示购物栏副本, 用于解决购物车列表(shop-cart-list)遮挡购物栏(shop-cart)问题
             } else {
-                this.ListFold = true
+                this.ListFold = true // 设置购物栏为关闭状态
                 this._hideShopCartList()
                 this._hideShopCartSticky()
             }
         },
+
         // 利用create-api调用shop-cart-list组件,向其传入数据selectFoods,调用其中方法show和hide,监听其中事件hide并执行相应逻辑
         _showShopCartList() {
             this.shopCartListCamp = this.shopCartListCamp || this.$createShopCartList({
@@ -174,17 +182,19 @@ export default {
                     }
                 }
             })
-            this.shopCartListCamp.show()
+            this.shopCartListCamp.show() 
         },
         _hideShopCartList() {
             this.shopCartListCamp.hide()
         },
-        //
+
+        // 利用create-api调用shop-cart-sticky组件,向其传入数据selectFoods和seller值,调用其中方法show和hide
         _showShopCartSticky(){
             this.shopCartStickyCamp = this.shopCartStickyCamp || this.$createShopCartSticky({
                 $props: {
                     selectFoods: 'selectFoods',
-                    seller: 'seller'
+                    seller: 'seller',
+                    fold: 'ListFold'
                 }
             })
             this.shopCartStickyCamp.show()
@@ -192,6 +202,7 @@ export default {
         _hideShopCartSticky() {
             this.shopCartStickyCamp.hide()
         },
+        
         pay() {
             if(this.totalPrice<this.minPrice) {
                 return

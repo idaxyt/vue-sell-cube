@@ -22,9 +22,9 @@ yarn run build
 ```
 ## 技术栈及核心技术
 * Vue.js2.5.17、Vue-CLI3.0、Cube-UI
-* Vue.js：*组建封装、 *组件通讯、 *插槽、 *过渡动画、 *mixin 
-* cube-ui：*creat-api模块、 *TabBar模块、 *Popup组件、*Dialog组件、 *Sroll组件、 * Silde组件、 * ScrollNav组件、 * ScrollNavBar组件
-* Vue cli：*开发调试、 *webpack配置、 *接口mock、 *打包构件分析
+* Vue.js：组建封装、 组件通讯、 插槽、 过渡动画、 mixin 
+* cube-ui：creat-api模块、 TabBar模块、 Popup组件、Dialog组件、 Sroll组件、 Silde组件、 ScrollNav组件、 ScrollNavBar组件
+* Vue cli：开发调试、 webpack配置、 接口mock、 打包构件分析
 
 ## 项目详叙
 ```

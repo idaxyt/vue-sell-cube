@@ -9,7 +9,7 @@
                 <template slot='bar' slot-scope='props'>
                     <cube-scroll-nav-bar 
                         direction='vertical'
-                        :labels='props.lables'  
+                        :labels='props.labels'  
                         :txts='barTxts'
                         :current='props.current'>
                         <template slot-scope='props'>
@@ -137,7 +137,6 @@ export default {
     data() {
         return {
             Index: 0,
-            // goods: [],
             scrollOptions: {
                 click: false,
                 directionLockThreshold: 0

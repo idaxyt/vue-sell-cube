@@ -101,6 +101,7 @@ export default {
         }
     },
     computed: {
+        //总价格
         totalPrice() {
             let total = 0
             this.selectFoods.forEach((food) => {
@@ -108,6 +109,7 @@ export default {
             })
             return total
         },
+        //总数
         totalCount() {
             let count = 0
             this.selectFoods.forEach((food) => {
@@ -115,6 +117,7 @@ export default {
             })
             return count
         },
+        //支付结算描述
         payDesc() {
             if(this.totalPrice ===0 ) {
                 return `起送￥${this.seller.minPrice?this.seller.minPrice:''}元`
@@ -124,6 +127,7 @@ export default {
                 return `还差￥${this.seller.minPrice-this.totalPrice}元起送`
             }
         },
+        //支付结算class
         payClass() {
             if(this.totalPrice < this.seller.minPrice) {
                 return 'not-enough'
@@ -156,6 +160,7 @@ export default {
                 this._hideShopCartList()
             }
         },
+        // 利用create-api调用shop-cart-list组件,向其传入数据selectFoods,调用其中方法show和hide,监听其中事件hide并执行相应逻辑
         _showShopCartList() {
             this.shopCartListCamp = this.shopCartListCamp || this.$createShopCartList({
                 $props: {

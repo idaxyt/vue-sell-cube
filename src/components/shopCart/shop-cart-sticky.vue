@@ -28,13 +28,21 @@ export default {
             }
         }
     },
+    components: {
+        ShopCart
+    },
     data() {
         return {
             visible: false
         }
     },
-    components: {
-        ShopCart
+    methods:{
+        show() {
+            this.visible = true
+        },
+        hide() {
+            this.visible = false
+        }
     }
 }
 </script>

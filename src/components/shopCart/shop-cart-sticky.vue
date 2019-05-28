@@ -14,11 +14,6 @@
 import ShopCart from './ShopCart'
 export default {
     name: 'shop-cart-sticky',
-    data() {
-        return {
-            visible: false
-        }
-    },
     props: {
         selectFoods: {
             type: Array,
@@ -32,10 +27,24 @@ export default {
                 return {}
             }
         }
+    },
+    data() {
+        return {
+            visible: false
+        }
+    },
+    components: {
+        ShopCart
     }
 }
 </script>
 
 <style lang="stylus" scoped>
-    
+    .shop-cart-sticky
+        position: absolute 
+        left: 0
+        bottom: 0
+        z-index: 999
+        width: 33.3%
+        height: 48px
 </style>

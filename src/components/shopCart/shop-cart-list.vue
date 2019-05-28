@@ -40,6 +40,7 @@
 
 <script>
 import CartControl from '../cartControl/CartControl'
+const EVENT_HIDE = 'hide'
 export default {
     name: 'shop-cart-list',
     props: {
@@ -64,6 +65,7 @@ export default {
         },
         hide() {
             this.visible = false
+            this.$emit(EVENT_HIDE)
         },
         maskClick() {
             this.hide()

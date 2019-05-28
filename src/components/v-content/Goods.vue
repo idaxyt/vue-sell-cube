@@ -6,6 +6,21 @@
                 :data='goods'
                 :options='scrollOptions'
                 v-if='goods.length'>
+                <template slot='bar' slot-scope='props'>
+                    <cube-scroll-nav-bar 
+                        direction='vertical'
+                        :labels='props.lables'  
+                        :txts='barTxts'
+                        :current='props.current'>
+                        <template slot-scope='props'>
+                            <div class="text">
+                                <support-ico class="icon" v-show='props.txt.type >=1' :size='3' :type='props.txt.type'></support-ico>
+                                <span>{{props.txt.name}}</span>
+                                <span class="num" v-show='props.txt.count'><bubble :num='props.txt.count'></bubble></span>
+                            </div>
+                        </template>
+                    </cube-scroll-nav-bar>
+                </template>
                 <cube-scroll-nav-panel
                     v-for='(good,goodIndex) in  goods' 
                     :key='goodIndex'
@@ -108,6 +123,7 @@ import BScroll from 'better-scroll'
 import ShopCart from '../shopCart/ShopCart'
 import CartControl from '../cartControl/CartControl'
 import Food from '../food/food'
+import Bubble from "../bubble/Bubble"
 export default {
     name: 'Goods',
     props: {
@@ -139,7 +155,8 @@ export default {
         SupportIco,
         ShopCart,
         CartControl,
-        Food
+        Food,
+        Bubble
     },
     computed: {
         seller() {
@@ -158,6 +175,23 @@ export default {
                 })
             })
             return foods
+        },
+        barTxts() {
+            let ret = []
+            this.goods.forEach((good) => {
+                const {type,name,foods} = good
+                let count = 0
+                foods.forEach((food)=>{
+                    count += food.count || 0
+
+                })
+                ret.push({
+                    type,
+                    name,
+                    count
+                })
+            })
+            return ret
         }
     },
     methods: {
@@ -332,98 +366,4 @@ export default {
         z-index: 50
         width: 100%
         height: 48px
-        // .goods
-        //     display: flex
-        //     position: absolute 
-        //     // top: 177px
-        //     // bottom: 46px
-        //     width: 100%
-        //     overflow: hidden
-        //     .menu-wrapper
-        //         flex: 0 0 80px
-        //         width: 80px
-        //         background: #f3f5f7
-        //         .menu-item
-        //             display: table
-        //             width:  56px 
-        //             padding: 0 12px
-        //             line-height: 14px 
-        //             height: 54px
-        //             &.current
-        //                 position: relative
-        //                 z-index: 10
-        //                 margin-top: -1px
-        //                 font-weight: 700
-        //                 background-color: #fff
-        //                 line-height: 20px
-        //                 .text
-        //                     border-none()
-        //             .icon
-        //                 display: inline-block
-        //                 width: 12px
-        //                 height: 12px 
-        //                 margin-right: 2px
-        //             .text
-        //                 display: table-cell
-        //                 vertical-align: middle
-        //                 width: 56px
-        //                 font-size: 12px
-        //                 border-1px(rgba(7,17,27,0.1))
-
-        //     .foods-wrapper
-        //         flex: 1
-        //         .title
-        //             padding-left: 14px
-        //             height: 26px
-        //             line-height: 26px
-        //             border-left: 2px solid #d9dde1
-        //             font-size: 12px
-        //             color: rgb(147,153,159)
-        //             background: #f3f5f7
-        //         .food-item
-        //             display: flex
-        //             margin: 18px
-        //             padding-bottom: 18px
-        //             border-1px(rgba(7,17,27,0.1))
-        //             :last-child
-        //                 border-none()
-        //                 margin-bottom: 0
-        //             .icon
-        //                 flex: 0 0 57px
-        //                 margin-right: 10px
-        //             .content
-        //                 flex: 1
-        //                 .name
-        //                     margin: 2px 0 8px 0
-        //                     font-size: 14px
-        //                     height: 14px
-        //                     line-height: 14px
-        //                     color: rgb(7,17,27)
-        //                 .desc, .extra
-        //                     line-height: 10px
-        //                     font-size: 10px
-        //                     color: rgb(147,153,159)
-        //                 .desc
-        //                     line-height: 12px
-        //                     margin-bottom: 8px
-        //                 .extra
-        //                     .count
-        //                         margin-right: 12px 
-        //                 .price
-        //                     font-weight: 700
-        //                     line-height: 24px
-        //                     .now
-        //                         margin-right: 8px
-        //                         font-size: 14px
-        //                         color: rgb(240,24,20)
-        //                     .old
-        //                         font-size: 10px
-        //                         color: rgb(147,153,1559)
-        //                         text-decoration: line-through
-                        
-        //                 .cartcontrol-wrapper
-        //                     position: absolute
-        //                     right: 0
-        //                     bottom: 12px
-                
 </style>

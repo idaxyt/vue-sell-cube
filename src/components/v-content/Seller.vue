@@ -1,6 +1,6 @@
 <template>
     <div class="seller">
-        <div class="seller-content">
+        <!-- <div class="seller-content">
             <div class="overview">
                 <h1 class="title">{{seller.name}}</h1>
                 <div class="desc border-1px">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -115,38 +115,38 @@ export default {
         }
     },
     methods: {
-        _initScroll() {
-            if(this.seller.pics) {
-                let picWidth = 120
-                let margin = 6
-                let width = (picWidth+margin)*this.seller.pics.length - margin
-                this.$refs['picwidth'].style.width = width + 'px'
-            }
-            if(!this.bulletinScroll) {
-                this.bulletinScroll = new BScroll(this.$refs['bulletinscroll'],{
-                    click: true
-                })
-            } else {
-                this.bulletinScroll.refresh()
-            }
-            if(!this.picScroll) {
-                this.picScroll = new BScroll(this.$refs['picScroll'],{
-                    click: true,
-                    scrollX: true,
-                    eventPassthrough: 'vertical'
-                })
-            } else {
-                this.picScroll.refresh()
-            }
-        },
-        toggleFavorite(event) {
-            this.favorite = !this.favorite
-            saveToLocal(this.seller.id,'favorite',this.favorite)
-        }
+        // _initScroll() {
+        //     if(this.seller.pics) {
+        //         let picWidth = 120
+        //         let margin = 6
+        //         let width = (picWidth+margin)*this.seller.pics.length - margin
+        //         this.$refs['picwidth'].style.width = width + 'px'
+        //     }
+        //     if(!this.bulletinScroll) {
+        //         this.bulletinScroll = new BScroll(this.$refs['bulletinscroll'],{
+        //             click: true
+        //         })
+        //     } else {
+        //         this.bulletinScroll.refresh()
+        //     }
+        //     if(!this.picScroll) {
+        //         this.picScroll = new BScroll(this.$refs['picScroll'],{
+        //             click: true,
+        //             scrollX: true,
+        //             eventPassthrough: 'vertical'
+        //         })
+        //     } else {
+        //         this.picScroll.refresh()
+        //     }
+        // },
+        // toggleFavorite(event) {
+        //     this.favorite = !this.favorite
+        //     saveToLocal(this.seller.id,'favorite',this.favorite)
+        // }
     },
     mounted() {
         this.$nextTick(()=>{
-            this._initScroll()
+            // this._initScroll()
         })
     }
 }

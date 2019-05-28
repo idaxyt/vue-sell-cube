@@ -1,6 +1,6 @@
 <template>
     <div class="ratings">
-        <div class="ratings-content">
+        <!-- <div class="ratings-content">
             <div class="overview">
                 <div class="overview-left">
                     <h1 class="score">{{seller.score}}</h1>
@@ -63,7 +63,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -116,42 +116,42 @@ export default {
         }
     },
     methods: {
-        _initScroll() {
-            if(!this.ratingsScroll) {
-                this.ratingsScroll = new BScroll(this.$refs.ratings, {
-                    click: true,
+        // _initScroll() {
+        //     if(!this.ratingsScroll) {
+        //         this.ratingsScroll = new BScroll(this.$refs.ratings, {
+        //             click: true,
 
-                })
-            } else {
-                this.ratingsScroll.refresh()
-            }
-        },
-        change(v) {
-            this.selectType = v
-            this.$nextTick(()=>{
-                this.ratingsScroll.refresh()
-            })
-        },
-        changeonlyContent(v) {
-            this.onlyContent = v
-            this.$nextTick(()=>{
-                this.ratingsScroll.refresh()
-            })
-        },
-        needShow(type,text) {
-            if(this.onlyContent && !text) {
-                return false
-            }
-            if(this.selectType === ALL) {
-                return true
-            } else {
-                return type === this.selectType
-            }
-        }
+        //         })
+        //     } else {
+        //         this.ratingsScroll.refresh()
+        //     }
+        // },
+        // change(v) {
+        //     this.selectType = v
+        //     this.$nextTick(()=>{
+        //         this.ratingsScroll.refresh()
+        //     })
+        // },
+        // changeonlyContent(v) {
+        //     this.onlyContent = v
+        //     this.$nextTick(()=>{
+        //         this.ratingsScroll.refresh()
+        //     })
+        // },
+        // needShow(type,text) {
+        //     if(this.onlyContent && !text) {
+        //         return false
+        //     }
+        //     if(this.selectType === ALL) {
+        //         return true
+        //     } else {
+        //         return type === this.selectType
+        //     }
+        // }
     },
     mounted() {
         this.$nextTick(() => {
-            this._initScroll()
+            // this._initScroll()
         })
     },
 }

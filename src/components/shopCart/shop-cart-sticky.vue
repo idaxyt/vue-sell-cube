@@ -53,6 +53,6 @@ export default {
         left: 0
         bottom: 0
         z-index: 999
-        width: 33.3%
+        width: 100%
         height: 48px
 </style>

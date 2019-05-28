@@ -293,14 +293,14 @@ export default {
         .text
             flex: 1
             position: relative
-        .num
-            position: absolute
-            right: -8px
-            top: -10px
-        .support-ico
-            display: inline-block
-            vertical-align:  top
-            margin-right: 4px
+            .num
+                position: absolute
+                right: -8px
+                top: -10px
+            .support-ico
+                display: inline-block
+                vertical-align:  top
+                margin-right: 4px
     >>> .cube-scroll-nav-bar-item_active
             background: $color-white
             color: $color-dark-gray

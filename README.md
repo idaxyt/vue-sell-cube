@@ -33,4 +33,19 @@ yarn run test
 
 ## 项目示例
 ---商家食品列表---
+![商家食品列表](https://github.com/idaxyt/vue-sell-cube/blob/master/main1.png)
 
+---弹层---
+![弹层](https://github.com/idaxyt/vue-sell-cube/blob/master/popup.png)
+
+---购物车列表---
+![购物车列表](https://github.com/idaxyt/vue-sell-cube/blob/master/shopcart.png)
+
+---详情列表---
+![详情列表](https://github.com/idaxyt/vue-sell-cube/blob/master/detail.png)
+
+---评价---
+![评价](https://github.com/idaxyt/vue-sell-cube/blob/master/ratings.png)
+
+---商家---
+![商家](https://github.com/idaxyt/vue-sell-cube/blob/master/seller.png)

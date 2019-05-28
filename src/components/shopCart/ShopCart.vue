@@ -155,9 +155,11 @@ export default {
                 }
                 this.ListFold = false
                 this._showShopCartList()
+                this._showShopCartSticky()
             } else {
                 this.ListFold = true
                 this._hideShopCartList()
+                this._hideShopCartSticky()
             }
         },
         // 利用create-api调用shop-cart-list组件,向其传入数据selectFoods,调用其中方法show和hide,监听其中事件hide并执行相应逻辑
@@ -176,6 +178,19 @@ export default {
         },
         _hideShopCartList() {
             this.shopCartListCamp.hide()
+        },
+        //
+        _showShopCartSticky(){
+            this.shopCartStickyCamp = this.shopCartStickyCamp || this.$createShopCartSticky({
+                $props: {
+                    selectFoods: 'selectFoods',
+                    seller: 'seller'
+                }
+            })
+            this.shopCartStickyCamp.show()
+        },
+        _hideShopCartSticky() {
+            this.shopCartStickyCamp.hide()
         },
         pay() {
             if(this.totalPrice<this.minPrice) {
@@ -234,11 +249,11 @@ export default {
 .v-enter-active, .v-leave-active
     transition: opacity 0.2s
 .shopCart
-    position: fixed
+    position: absolute
     left: 0
     bottom: 0
     z-index: 50
-    width: 33.3%
+    width: 100%
     height: 48px
     .content
         display: flex

@@ -20,7 +20,7 @@
                         <h1 class="title">购物车</h1>
                         <span class="empty" @click='empty'>清空</span>
                     </div>
-                    <cube-scroll class="list-contained" ref='list'>
+                    <cube-scroll class="list-contained" ref='listContent'>
                         <ul>
                             <li class="food" v-for="(food,index) in selectFoods" :key='index'>
                                 <span class="name">{{food.name}}</span>
@@ -58,6 +58,13 @@ export default {
     },
     components: {
         CartControl
+    },
+    created() {
+        this.$on(EVENT_SHOW, ()=> {
+            this.$nextTick(()=>{
+                this.$refs.listContent.refresh()
+            })
+        })
     },
     methods: {
         onLeave() {

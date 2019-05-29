@@ -221,10 +221,20 @@ export default {
             this.shopCartStickyCamp.hide()
         },
         
-        pay() {
-            if(this.totalPrice<this.minPrice) {
+        pay(e) {
+            if(this.totalPrice< this.seller.minPrice) {
                 return
             }
+            // >>> 问题：换过商品之后再再点击“去结算”时，dialog内容保持为第一次结算时内容
+            // >>> 原因：保留缓存时（this.dialogComp = this.dialogComp || ····）,content内容保持不变
+            // >>> 解决：不要之后的this.dialogComp
+            this.dialogComp = this.$createDialog({
+                type: '',
+                title: '支付',
+                content:  `支付${this.totalPrice}元`
+            })
+            this.dialogComp.show()
+            e.stopPropagation()
         }
     },
     watch: {

@@ -60,6 +60,9 @@ export default {
         CartControl
     },
     created() {
+        // >>> 问题: 购物车列表显示超过显示界面之后无法滚动
+        // >>> 原因: 在visible为false时滚动列表已经初始化渲染，且此时计算出的高度有误，故visible为true时，scroll无法滚动
+        // >>> 解决：监听visible变化的show事件，发生变化时重新渲染scroll，采用其refresh方法
         this.$on(EVENT_SHOW, ()=> {
             this.$nextTick(()=>{
                 this.$refs.listContent.refresh()

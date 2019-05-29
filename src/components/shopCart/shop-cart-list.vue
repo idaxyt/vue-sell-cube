@@ -13,6 +13,7 @@
             >
             <transition 
             name='move'
+            @after-leave='onLeave'
             >
                 <div v-show='visible'>
                     <div class="list-header">
@@ -40,7 +41,10 @@
 
 <script>
 import CartControl from '../cartControl/CartControl'
+
 const EVENT_HIDE = 'hide'
+const EVENT_LEAVE = 'leave'
+
 export default {
     name: 'shop-cart-list',
     props: {
@@ -66,6 +70,9 @@ export default {
         hide() {
             this.visible = false
             this.$emit(EVENT_HIDE)
+        },
+        onLeave() {
+            this.$emit(EVENT_LEAVE)
         },
         maskClick() {
             this.hide()

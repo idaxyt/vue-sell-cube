@@ -5,6 +5,7 @@
             :selectFoods='selectFoods'
             :seller='seller'
             :fold='fold'
+            :sticky=true
         >
 
         </shop-cart>
@@ -31,6 +32,12 @@ export default {
         fold: {
             type: Boolean,
             default: true
+        },
+        list: {
+            type: Object,
+            default() {
+                return {}
+            }
         }
     },
     components: {

@@ -224,8 +224,8 @@ export default {
             // >>> -----------------------------------------------------------------------------------
             // >>> 问题(再看)：购物车连续点击第四次时，本应关闭，但是重新创建新列表
             // >>> 原因: 购物车副本shop-cart-sticky第一次创建时，使用$props传入fold值为false，执行ListFold等于fold，值为false，
-            // >>>       故执行toggleList时再次将ListFold值设为true。即使shop-cart-sticky通过fold传入值为false，但第一次shop-cart-sticky创建的ShopCart组件
-            // >>>       ListFold值还是true（此时第一次实例化的shop-cart-sticy未被销毁），故再次点击执行toggleList时再次创建新实例
+            // >>>       故执行toggleList时再次将ListFold值设为true。即使shop-cart-sticky通过fold传入值为false，vue组件复用的原因，
+            // >>>       ListFold值根据第一次生成之后不会随fold值变化还是为true，故再次点击执行toggleList时再次创建新实例
             // >>> 解决：添加watch方法，监听fold，ListFold值随fold改变      
             this.shopCartStickyCamp = this.shopCartStickyCamp || this.$createShopCartSticky({
                 $props: {

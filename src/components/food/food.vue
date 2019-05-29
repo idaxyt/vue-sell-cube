@@ -17,6 +17,12 @@
                         </div>
                         <div class="price">
                             <span class="now">￥{{food.price}}</span><span class="old" v-show='food.oldPrice'>￥{{food.oldPrice}}</span>
+                            <div class="cart-control-wrapper" v-show='food.count'>
+                                <CartControl :food='food'></CartControl>
+                            </div>
+                            <transition  name="fade">
+                                <div class="buy" v-show='!food.count || food.count===0' @click.stop.prevent='addFirst(food,$event)' transition='fade'>加入购物车</div>
+                            </transition>
                         </div>
                         <split v-show='food.info'></split>
                         <div class="info" v-show='food.info'>
@@ -236,9 +242,10 @@ export default {
         .sell-count
           margin-right: 12px
       .price
+        position: relative
+        padding:0 0 18px 18px
         line-height: 24px
         font-weight: 700
-        padding:0 0 18px 18px
         .now
           margin-right: 8px
           font-size: 14px

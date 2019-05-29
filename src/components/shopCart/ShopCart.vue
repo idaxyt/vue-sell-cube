@@ -182,6 +182,9 @@ export default {
                 $events: {
                     hide: () => {
                         this.ListFold = true
+                    },
+                    leave: () => {
+                        this._hideShopCartSticky()
                     }
                 }
             })
@@ -211,6 +214,12 @@ export default {
             // >>> 解决：> shop-cart-sticy组件$props属性设置list，ShopCart组件利用create API实例化ShopCartSticky组件时，
             // >>>        传入值为shopCartListCamp实例化的值
             // >>>       > ShopCart组件在__hideShopCartList方法中使用this.$parent.list方法调用ShopCartSticky的hide方法
+            // >>> -----------------------------------------------------------------------------------
+            // >>> 问题：1.打开购物车列表之后点击阴影选择关闭之后，再点击购物栏时无反应，需再点击一次才出现购物列表
+            // >>>       2. 用户进行tab（商品|评论|商家）切换，购物栏依旧存在
+            // >>> 原因：第一次打开购物车列表之后，创建的shop-cart-sticky组件在购物车列表关闭时未被销毁
+            // >>> 解决：shop-cart-list组件的transition标签中添加after-leave的onLeave方法，方法中使用$emit触发leave事件。
+            // >>>       ShopCart组件通过creatApi实例化的shop-cart-list组件中监听leave事件回调，调用_hideShopCartSticky方法隐藏shop-cart-sticky组件
             this.shopCartStickyCamp = this.shopCartStickyCamp || this.$createShopCartSticky({
                 $props: {
                     selectFoods: 'selectFoods',
@@ -220,6 +229,9 @@ export default {
                 }
             })
             this.shopCartStickyCamp.show()
+        },
+        _hideShopCartSticky() {
+            this.shopCartStickyCamp.hide()
         },
         
         pay() {

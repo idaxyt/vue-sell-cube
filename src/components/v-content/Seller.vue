@@ -1,6 +1,5 @@
 <template>
-    <div class="seller">
-        <!-- <div class="seller-content">
+        <cube-scroll class="seller-content">
             <div class="overview">
                 <h1 class="title">{{seller.name}}</h1>
                 <div class="desc border-1px">
@@ -70,8 +69,7 @@
                     </div>
                 </div>
             </div>
-        </div> -->
-    </div>
+        </cube-scroll>
 </template>
 
 <script scoped>
@@ -89,12 +87,6 @@ export default {
                 return {}
             }
         }
-        // seller: {
-        //     type: Object,
-        //     default() {
-        //         return {}
-        //     }
-        // }
     },
     components: {
         Star,
@@ -103,51 +95,26 @@ export default {
     },
     data() {
         return {
-            seller: this.data.seller,
             favorite: (()=>{
                return loadFromLocal(this.data.seller.id,'favorite',false)
             })(),
         }
     },
     computed: {
+        seller() {
+            return this.data.seller
+        },
         favoriteText() {
             return this.favorite?'已收藏':'收藏'
         }
     },
     methods: {
-        // _initScroll() {
-        //     if(this.seller.pics) {
-        //         let picWidth = 120
-        //         let margin = 6
-        //         let width = (picWidth+margin)*this.seller.pics.length - margin
-        //         this.$refs['picwidth'].style.width = width + 'px'
-        //     }
-        //     if(!this.bulletinScroll) {
-        //         this.bulletinScroll = new BScroll(this.$refs['bulletinscroll'],{
-        //             click: true
-        //         })
-        //     } else {
-        //         this.bulletinScroll.refresh()
-        //     }
-        //     if(!this.picScroll) {
-        //         this.picScroll = new BScroll(this.$refs['picScroll'],{
-        //             click: true,
-        //             scrollX: true,
-        //             eventPassthrough: 'vertical'
-        //         })
-        //     } else {
-        //         this.picScroll.refresh()
-        //     }
-        // },
-        // toggleFavorite(event) {
-        //     this.favorite = !this.favorite
-        //     saveToLocal(this.seller.id,'favorite',this.favorite)
-        // }
+        toggleFavorite(event) {
+            this.favorite = !this.favorite
+            saveToLocal(this.seller.id,'favorite',this.favorite)
+        }
     },
     mounted() {
-        this.$nextTick(()=>{
-            // this._initScroll()
-        })
     }
 }
 </script>
@@ -155,12 +122,12 @@ export default {
 <style lang="stylus">
 @import "../../common/stylus/mixin"
 
-.seller
-    position: absolute 
-    top: 174px
-    bottom: 0
-    left: 0
-    width: 100%
+.seller-content
+    position: relative 
+    // top: 174px
+    // bottom: 0
+    // left: 0
+    // width: 100%
     overflow: hidden
     .overview
         padding: 18px

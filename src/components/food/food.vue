@@ -3,7 +3,7 @@
         name='move'
         @after-leave='onleave'>
         <div class="food" v-show='visible'>
-            <cube-scroll ref='scroll'>
+            <cube-scroll ref='scroll' :data='computedRatings'>
                 <div class="food-content">
                     <div class="image-header">
                         <img :src="food.image" alt="">

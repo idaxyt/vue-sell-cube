@@ -1,5 +1,6 @@
 <template>
-    <cube-scroll class="ratings" :options='scrollOptions'>
+    <!-- cube-scroll可以监听数据发生变化之后会确保scroll的refresh，故将会变化的computedRatings传递给cube-scroll -->
+    <cube-scroll class="ratings" :options='scrollOptions' :data='computedRatings'>
         <div class="ratings-content">
             <div class="overview">
                 <div class="overview-left">

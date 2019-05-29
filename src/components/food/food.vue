@@ -1,5 +1,35 @@
 <template>
-    <div v-show='showFlag' class="food" trasition='move'  ref='Detail'>
+    <transition name='move'>
+        <div class="food" v-show='visible'>
+            <cube-scroll ref='scroll'>
+                <div class="food-content">
+                    <div class="img-header">
+                        <img :src="food.image" alt="">
+                        <div class="back" @click='hide'>
+                            <i class="icon-arrow_lift"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="title">{{food.name}}</div>
+                    <div class="detail">
+                        <span class="sell-count">月售{{food.sellCount}}份</span>
+                        <span class="rating">好评率{{food.rating}}</span>
+                    </div>
+                    <div class="price">
+                        <span class="noe">￥{{food.price}}</span><span class="old" v-show='food.oldPrice'>￥{{food.oldPrice}}</span>
+                    </div>
+                    <split v-show='food.info'></split>
+                    <div class="info" v-show='food.info'>
+                        <h1 class="title">{{food.name}}</h1>
+                        <p class="text">{{food.info}}</p>
+                    </div>
+                    <Split></Split>
+                </div>
+            </cube-scroll>
+        </div>
+    </transition>
+    <!-- <div v-show='showFlag' class="food" trasition='move'  ref='Detail'>
         <div class="food-content">
             <div class="image-header">
                 <img :src="food.image" alt="">
@@ -53,19 +83,20 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
     const POSITIVE = 0;
     const NEGATIVE = 1;
     const ALL = 2
-import BScroll from 'better-scroll'
+import popupMixin from 'common/mixins/popup'
 import Vue from 'vue'
 import CartControl from '../cartControl/CartControl'
 import Split from '../split/split'
 import RatingSelect from '../ratingselect/ratingselect'
 export default {
+    mixins: [popupMixin],
     name: 'food',
     props: {
         food: {
@@ -144,11 +175,6 @@ export default {
 
 <style lang='stylus' scoped> 
 @import "../../common/stylus/mixin"
-    .v-enter, .v-leave-to 
-        opacity: 0
-        transform: rotate(180deg)
-    .v-enter-active, .v-leave-active 
-        transition: opacity 0.2s
     .food 
         position: fixed
         left: 0
@@ -158,14 +184,15 @@ export default {
         bottom: 48px
         z-index: 30
         background: #fff
-        &.move-transition
+        &.move-enter-active, &.move-leave-active
             transition: all 0.2s linear
             transform: translate3d(0,0,0)
-        &.move-enter, &.move-leave
+        &.move-enter, &.move-leave-to
             transform: translate3d(100%,0,0)
         .image-header
             position: relative
             width: 100%
+            // height为0，padding-top为100% 能打造一个等比效果
             height: 0
             padding-top: 100%
             img 

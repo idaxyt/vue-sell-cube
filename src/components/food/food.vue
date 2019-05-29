@@ -33,11 +33,19 @@
                         </div>
                         <Split></Split>
                         <div class="rating">
-                        <h1 class="title">商品评价</h1>
+                            <h1 class="title">商品评价</h1>
+                            <RatingSelect 
+                                @select='onSelect'
+                                @toggle='onToggle'
+                                :selectType='selectType' 
+                                :onlyContent='onlyContent' 
+                                :desc='desc' 
+                                :ratings='food.ratings'
+                            ></RatingSelect>
                         <div class="rating-wrapper">
                             <ul v-show="ratings && ratings.length">
                                 <li
-                                v-for="(rating,index) in ratings"
+                                v-for="(rating,index) in computedRatings"
                                 class="rating-item border-bottom-1px"
                                 :key="index"
                                 >
@@ -59,61 +67,6 @@
             </cube-scroll>
         </div>
     </transition>
-    <!-- <div v-show='showFlag' class="food" trasition='move'  ref='Detail'>
-        <div class="food-content">
-            <div class="image-header">
-                <img :src="food.image" alt="">
-                <div class="back" @click="back">
-                    <i class="icon-arrow_lift"></i>
-                </div>
-            </div>
-            <div class="content">
-                <div class="title">{{food.name}}</div>
-                <div class="detail">
-                    <span class="sell-count">月售{{food.sellCount}}份</span>
-                    <span class="rating">好评率{{food.rating}}</span>
-                </div>
-                <div class="price">
-                    <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
-                </div>
-                <div class="cartcontrol-wrapper" v-show='food.count'>
-                    <CartControl :food='food'></CartControl>
-                </div>
-                <transition>
-                    <div class="buy" v-show='!food.count || food.count===0' @click.stop.prevent='addFirst(food,$event)' transition='fade'>加入购物车</div>
-                </transition>
-            </div>
-            <split v-show='food.info'></split>
-            <div class="info" v-show='food.info'>
-                <h1 class="title">{{food.name}}</h1>
-                <p class="text">{{food.info}}</p>
-            </div>
-            <Split></Split>
-            <div class="rating">
-                <div class='title'>商品评价</div>
-                <RatingSelect @change='change' @changeonlyContent='changeonlyContent' :selectType='selectType' :onlyContent='onlyContent' :desc='desc' :ratings='food.ratings'></RatingSelect>
-            </div>
-            <div class="rating-wrapper">
-                <div class="no-rating" v-show='!food.ratings'>暂无评价</div>
-                <ul v-show='food.ratings && food.ratings.length'>
-                    <li 
-                        v-for='(rating,index) in food.ratings' 
-                        :key='index' 
-                        class="rating-item border-1px"
-                        v-show="needShow(rating.rateType,rating.text)">
-                        <div class="user">
-                            <span class="name">{{rating.username}}</span>
-                            <img :src="rating.avatar" alt="" class="avater" width='12px' height='12px'>
-                        </div>
-                        <div class="time">{{rating.rateTime | formatDate}}</div>
-                        <p class="text">
-                            <span :class="rating.rateType===0?'icon-thumb_up':'icon-thumb_down'" ></span>{{rating.text}}
-                        </p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div> -->
 </template>
 
 <script scoped>
@@ -169,20 +122,19 @@ export default {
         ratings() {
             return this.food.ratings
         },
-        showFlag() {
-            this.selectType = ALL
-            this.onlyContent = true
-            this.$nextTick(()=>{
-                if(!this.foodDetailscroll) {
-                     this.foodDetailscroll = new BScroll(this.$refs['Detail'],{
-                        click: true
-                    })
-                } else {
-                    this.foodDetailscroll.refresh()
+        computedRatings() {
+            let that = this
+            let ret = []
+            this.ratings.forEach((rating)=>{
+                if(that.onlyContent && !rating.text) {
+                    return 
+                }
+                if(that.selectType === ALL || that.selectType === rating.rateType) {
+                    ret.push(rating)
                 }
             })
-            return this.value
-        }
+            return ret
+        },
     },
     created() {
         this.$on(EVENT_SHOW, ()=> {
@@ -202,27 +154,11 @@ export default {
             this.$emit('cartadd',event.target)
             Vue.set(this.food,'count',1)
         },
-        change(v) {
-            this.selectType = v
-            this.$nextTick(()=>{
-                this.foodDetailscroll.refresh()
-            })
+        onSelect(type) {
+            this.selectType = type
         },
-        changeonlyContent(v) {
-            this.onlyContent = v
-            this.$nextTick(()=>{
-                this.foodDetailscroll.refresh()
-            })
-        },
-        needShow(type,text) {
-            if(this.onlyContent && !text) {
-                return false
-            }
-            if(this.selectType === ALL) {
-                return true
-            } else {
-                return type === this.selectType
-            }
+        onToggle(only) {
+            this.onlyContent = only
         }
     },
 }
@@ -334,7 +270,6 @@ export default {
       padding-top: 18px
       .title
         line-height: 14px
-        margin-left: 18px
         font-size: $fontsize-medium
         color: $color-dark-grey
       .rating-wrapper

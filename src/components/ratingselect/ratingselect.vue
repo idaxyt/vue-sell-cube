@@ -16,6 +16,8 @@
     const POSITIVE = 0;
     const NEGATIVE = 1;
     const ALL= 2
+    const EVENT_SELECT = 'select'
+    const EVENT_TOGGLE = 'toggle'
 export default {
     name: 'ratingselect',
     data() {
@@ -53,11 +55,11 @@ export default {
     methods: {
         select(v,event) {
             this.Type = v
-            this.$emit('changeRating',v)
+            this.$emit(EVENT_SELECT,this.Type)
         },
         toggleContent(event) {
             this.only = !this.only
-            this.$emit('changeonlyRatingContent', this.only)
+            this.$emit(EVENT_TOGGLE, this.only)
         }
     },
     mounted() {

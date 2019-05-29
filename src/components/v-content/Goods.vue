@@ -30,7 +30,8 @@
                         <li
                             v-for="(food,foodIndex) in good.foods"
                             :key='foodIndex'
-                            class="food-item">
+                            class="food-item"
+                            @click="selectFood(food)">
                             <div class="icon">
                                 <img :src="food.icon" height='57' width='57' alt="">
                             </div>
@@ -107,9 +108,6 @@ export default {
         seller() {
             return this.data.seller
         },
-        // goods() {
-        //     return this.data.goods
-        // },
         selectedFoods() {
             let foods = []
             this.goods.forEach((good)=>{
@@ -147,6 +145,18 @@ export default {
                     this.goods = good
                 })
             }
+        },
+        selectFood(v) {
+            this.selectedFood = v
+            this._showFood()
+        },
+        _showFood() {
+            this.foodComp = this.foodComp || this.$createFood({
+                $props: {
+                    food: 'selectedFood'
+                }
+            })
+            this.foodComp.show()
         }
     },
     mounted() {

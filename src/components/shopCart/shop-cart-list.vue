@@ -78,10 +78,20 @@ export default {
             this.hide()
         },
         empty() {
-            this.selectFoods.forEach((food,index) => {
-                food.count = 0
+            this.dialogComp = this.dialogComp || this.$createDialog({
+                type: 'confirm',
+                title: '清空购物车',
+                conent: '确认清空购物车？',
+                $events: {
+                    confirm: () => {
+                        this.selectFoods.forEach((food,index) => {
+                            food.count = 0
+                        })
+                        this.hide()
+                    }
+                }
             })
-            this.hide()
+            this.dialogComp.show()
         }
     },
     computed: {

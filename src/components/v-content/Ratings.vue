@@ -37,7 +37,7 @@
                 <div class="no-rating" v-show='!ratings'>暂无评价</div>
                 <ul v-show='ratings && ratings.length'>
                     <li 
-                        v-for='(rating,index) in ratings' 
+                        v-for='(rating,index) in computedRatings' 
                         :key='index' 
                         class="rating-item border-1px"
                         >
@@ -63,31 +63,6 @@
             </div>
         </div>
     </cube-scroll>
-        <!-- <div class="ratings-content">
-            <div class="overview">
-                <div class="overview-left">
-                    <h1 class="score">{{seller.score}}</h1>
-                    <div class="title">综合评分</div>
-                    <div class="rank">高于周边商家{{seller.rankRate}}%</div>
-                </div>
-                <div class="overview-right">
-                    <div class="score-wrapper">
-                        <span class="title">服务态度</span>
-                        <Star :size='36' :score='seller.serviceScore'></Star>
-                        <span class="score">{{seller.serviceScore}}</span>
-                    </div>
-                    <div class="score-wrapper">
-                        <span class="title">商品评分</span>
-                        <Star class="star" :size='36' :score='seller.foodScore'></Star><span class="score">{{seller.foodScore}}</span>
-                    </div>
-                    <div class="delivery-wrapper">
-                        <span class="title">送达时间</span>
-                        <span class="delivery">{{seller.deliveryTime}}分钟</span>
-                    </div>
-                </div> 
-            </div>
-            <Split></Split>
-        </div> -->
 </template>
 
 <script scoped>
@@ -98,7 +73,9 @@ import Star from '../star/star'
 import Split from '../split/split'
 import RatingSelect from '../ratingselect/ratingselect'
 import { getRatings } from "../../api"
+import ratingMixin from '../../common/mixins/rating'
 export default {
+    mixins: [ratingMixin],
     name: 'Ratings',
     props: {
         data: {
@@ -115,14 +92,14 @@ export default {
     },
     data() {
         return {
-            ratings: [],
+            // ratings: [],
             fetched: false,
             scrollOptions: {
                 click: false,
                 directionLockThreshold: 0
             },
-            selectType: ALL,
-            onlyContent: true,
+            // selectType: ALL,
+            // onlyContent: true,
             desc: {
                 all: '全部',
                 positive: '推荐',
@@ -134,19 +111,6 @@ export default {
         seller() {
             return this.data.seller || {}
         },
-        computedRatings() {
-            let that = this
-            let ret = []
-            this.ratings.forEach((rating)=>{
-                if(that.onlyContent && !rating.text) {
-                    return 
-                }
-                if(that.selectType === ALL || that.selectType === rating.rateType) {
-                    ret.push(rating)
-                }
-            })
-            return ret
-        }
     },
     methods: {
         fetch(){
@@ -157,22 +121,6 @@ export default {
                 })
             }
         },
-        onSelect(type) {
-            this.selectType = type
-        },
-        onToggle(only) {
-            this.onlyContent = only
-        }
-        // needShow(type,text) {
-        //     if(this.onlyContent && !text) {
-        //         return false
-        //     }
-        //     if(this.selectType === ALL) {
-        //         return true
-        //     } else {
-        //         return type === this.selectType
-        //     }
-        // }
     },
     mounted() {
         this.$nextTick(() => {

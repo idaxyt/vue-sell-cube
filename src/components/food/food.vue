@@ -1,5 +1,7 @@
 <template>
-    <transition name='move'>
+    <transition 
+        name='move'
+        @after-leave='onleave'>
         <div class="food" v-show='visible'>
             <cube-scroll ref='scroll'>
                 <div class="food-content">
@@ -92,8 +94,9 @@
     </div> -->
 </template>
 
-<script>
+<script scoped>
     const EVENT_SHOW = 'show'
+    const EVENT_LEAVE = 'leave'
     const POSITIVE = 0;
     const NEGATIVE = 1;
     const ALL = 2
@@ -164,8 +167,8 @@ export default {
         })
     },
     methods: {
-        back() {
-            this.$emit('input',false)
+        onleave() {
+            this.$emit(EVENT_LEAVE)
         },
         addFirst(food,event) {
             if(!event._constructed) {

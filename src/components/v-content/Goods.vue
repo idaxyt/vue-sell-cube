@@ -155,6 +155,11 @@ export default {
             this.foodComp = this.foodComp || this.$createFood({
                 $props: {
                     food: 'selectedFood'
+                },
+                $events: {
+                    leave: () => {
+                        this._hideShopCartSticky()
+                    }
                 }
             })
             this.foodComp.show()
@@ -168,6 +173,9 @@ export default {
                 }
             })
             this.shopCartStickyComp.show()
+        },
+        _hideShopCartSticky() {
+            this.shopCartStickyComp.hide()            
         }
     },
     mounted() {

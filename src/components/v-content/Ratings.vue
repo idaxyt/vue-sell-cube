@@ -33,6 +33,7 @@
                 :desc='desc' 
                 :ratings='ratings'
                 class="ratingSelect"
+                v-if='ratings.length'
             ></RatingSelect>
             <div class="rating-wrapper" ref='ratings'>
                 <div class="no-rating" v-show='!ratings'>暂无评价</div>

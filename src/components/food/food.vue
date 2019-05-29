@@ -274,6 +274,8 @@ export default {
         color: $color-dark-grey
       .rating-wrapper
         padding: 0 18px
+        .no-rating
+            margin: 12px;
         .rating-item
           position: relative
           padding: 16px 0

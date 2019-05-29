@@ -92,18 +92,15 @@ export default {
     },
     data() {
         return {
-            // ratings: [],
             fetched: false,
             scrollOptions: {
                 click: false,
                 directionLockThreshold: 0
             },
-            // selectType: ALL,
-            // onlyContent: true,
             desc: {
                 all: '全部',
-                positive: '推荐',
-                negative: '吐槽'
+                positive: '满意',
+                negative: '不满意'
             }
         }
     },
@@ -121,12 +118,7 @@ export default {
                 })
             }
         },
-    },
-    mounted() {
-        this.$nextTick(() => {
-            // this._initScroll()
-        })
-    },
+    }
 }
 </script>
 

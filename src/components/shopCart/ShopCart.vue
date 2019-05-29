@@ -74,6 +74,10 @@ export default {
         fold: {
             type: Boolean,
             default: true
+        },
+        sticky: {
+            type: Boolean,
+            default: false
         }
     },
     components: {
@@ -166,7 +170,6 @@ export default {
             } else {
                 this.ListFold = true // 设置购物栏为关闭状态
                 this._hideShopCartList()
-                this._hideShopCartSticky()
             }
         },
 
@@ -185,22 +188,38 @@ export default {
             this.shopCartListCamp.show() 
         },
         _hideShopCartList() {
-            this.shopCartListCamp.hide()
+            // const comp = this.sticky?this.$parent.list: this.shopCartListCamp
+            // comp.hide && comp.hide()
+            this.$parent.list.hide()
         },
 
         // 利用create-api调用shop-cart-sticky组件,向其传入数据selectFoods和seller值,调用其中方法show和hide
         _showShopCartSticky(){
+            // >>> shop-cart-sticky为shop-cart副本，解决shop-cart-list遮盖底部购物栏（shop-cart组件）问题
+            // >>> shop-cart-sticky组件中，利用父子组件方式完成复制，并作为父组件向子组件传值
+            // >>> -----------------------------------------------------------------------------------
+            // >>> 问题：listFood设定为固定值true（购物栏折叠与否标识），点击打开的购物栏会重复产生购物列表和购物栏
+            // >>> 原因：shop-cart-sticky组件复用时，需实例化ShopCart组件，则置listFood为true，故重复调用其为true时的逻辑，
+            // >>>       不断产生购物列表和购物栏
+            // >>> 解决：shop-cart组件设置fold为$props属性，shop-cart-sticky组件为子组件传值，也设置fold为$props属性，
+            // >>>       listFold值与fold值相等，使用shopCartStickyCamp时传入fold值
+            // >>> -----------------------------------------------------------------------------------
+            // >>> 问题：用户点击购物栏关闭时，窗口弹出无this.shopCartListCamp的错误
+            // >>> 原因：> 用户第一次点击购物栏弹出购物列表，创建shop-cart-list组件并创建shopCartListCamp，
+            // >>>        也创建shop-cart-sticky组件但没有创建shopCartListCamp；
+            // >>>      > 需对shop-cart中的shopCartListcamp操作
+            // >>> 解决：> shop-cart-sticy组件$props属性设置list，ShopCart组件利用create API实例化ShopCartSticky组件时，
+            // >>>        传入值为shopCartListCamp实例化的值
+            // >>>       > ShopCart组件在__hideShopCartList方法中使用this.$parent.list方法调用ShopCartSticky的hide方法
             this.shopCartStickyCamp = this.shopCartStickyCamp || this.$createShopCartSticky({
                 $props: {
                     selectFoods: 'selectFoods',
                     seller: 'seller',
-                    fold: 'ListFold'
+                    fold: 'ListFold',
+                    list: this.shopCartListCamp
                 }
             })
             this.shopCartStickyCamp.show()
-        },
-        _hideShopCartSticky() {
-            this.shopCartStickyCamp.hide()
         },
         
         pay() {

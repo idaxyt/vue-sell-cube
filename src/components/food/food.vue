@@ -76,12 +76,13 @@
     const NEGATIVE = 1;
     const ALL = 2
 import popupMixin from 'common/mixins/popup'
+import ratingMixin from 'common/mixins/rating'
 import Vue from 'vue'
 import CartControl from '../cartControl/CartControl'
 import Split from '../split/split'
 import RatingSelect from '../ratingselect/ratingselect'
 export default {
-    mixins: [popupMixin],
+    mixins: [popupMixin,ratingMixin],
     name: 'food',
     props: {
         food: {
@@ -109,8 +110,6 @@ export default {
     },
     data() {
         return {
-            selectType: ALL,
-            onlyContent: true,
             desc: {
                 all: '全部',
                 positive: '推荐',
@@ -118,29 +117,12 @@ export default {
             }
         }
     },
-    computed: {
-        ratings() {
-            return this.food.ratings
-        },
-        computedRatings() {
-            let that = this
-            let ret = []
-            this.ratings.forEach((rating)=>{
-                if(that.onlyContent && !rating.text) {
-                    return 
-                }
-                if(that.selectType === ALL || that.selectType === rating.rateType) {
-                    ret.push(rating)
-                }
-            })
-            return ret
-        },
-    },
     created() {
         this.$on(EVENT_SHOW, ()=> {
             this.$nextTick(()=>{
                 this.$refs.scroll.refresh()
-            })
+            }),
+            this.ratings = this.food.ratings
         })
     },
     methods: {
@@ -153,12 +135,6 @@ export default {
             }
             this.$emit('cartadd',event.target)
             Vue.set(this.food,'count',1)
-        },
-        onSelect(type) {
-            this.selectType = type
-        },
-        onToggle(only) {
-            this.onlyContent = only
         }
     },
 }

@@ -37,7 +37,9 @@
 <script>
 import SupportIco from '../support-ico/support-ico'
 import Star from '../star/star'
+import popupMixin from '../../common/mixins/popup'
 export default {
+    mixins: [popupMixin],
     name: 'header-detail',
     props: {
         seller: {

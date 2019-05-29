@@ -171,9 +171,8 @@ export default {
             this.shopCartListCamp.show() 
         },
         _hideShopCartList() {
-            // const comp = this.sticky?this.$parent.list: this.shopCartListCamp
-            // comp.hide && comp.hide()
-            this.$parent.list.hide()
+            const comp = this.sticky?this.$parent.list: this.shopCartListCamp
+            comp.hide && comp.hide()
         },
 
         // 利用create-api调用shop-cart-sticky组件,向其传入数据selectFoods和seller值,调用其中方法show和hide
@@ -229,6 +228,11 @@ export default {
     watch: {
         fold(newVal) {
             this.ListFold = newVal
+        },
+        totalCount(newVal) {
+            if(!this.ListFold && !newVal) {
+                this._hideShopCartList()
+            }
         }
     },
     transitions: {

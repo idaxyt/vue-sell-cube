@@ -1,5 +1,5 @@
 <template>
-        <cube-scroll class="seller-content">
+        <cube-scroll class="seller-content" :options='sellerScrollOptions'>
             <div class="overview">
                 <h1 class="title">{{seller.name}}</h1>
                 <div class="desc border-1px">
@@ -50,13 +50,13 @@
                     <Split></Split>
                     <div class="pics">
                         <h1 class="title">商家实景</h1>
-                        <div class="pic-wrapper" ref='picScroll'>
+                        <cube-scroll class="pic-wrapper" :options='picScrollOptions'>
                             <ul class="pic-list" ref='picwidth'>
                                 <li class="pic-item" v-for="(pic,index) in seller.pics" :key='index'>
                                 <img :src="pic" width='120' height='90' alt="">  
                                 </li>
                             </ul>
-                        </div>
+                        </cube-scroll>
                     </div>
                     <Split></Split>
                     <div class="info">
@@ -98,6 +98,15 @@ export default {
             favorite: (()=>{
                return loadFromLocal(this.data.seller.id,'favorite',false)
             })(),
+            sellerScrollOptions: {
+                directionLockThreshold: 0,
+                click: false
+            },
+            picScrollOptions: {
+                scrollX: true,
+                stopPropagation: true,
+                directionLockThreshold: 0
+            }
         }
     },
     computed: {
@@ -124,11 +133,6 @@ export default {
 
 .seller-content
     position: relative 
-    // top: 174px
-    // bottom: 0
-    // left: 0
-    // width: 100%
-    overflow: hidden
     .overview
         padding: 18px
         position: relative
@@ -192,7 +196,6 @@ export default {
                 color: rgb(77,85,93)      
     .scroll
         overflow: hidden
-        height: 340px
         .bulletincontent
             padding-top: 5px
             padding-bottom: 50px
@@ -210,6 +213,7 @@ export default {
                         line-height: 24px
                         font-size: 12px
                         color: rgb(240,20,20)
+                        white-space: normal
                 .supports
                     width: 100%
                     margin: 0 auto 
@@ -235,9 +239,8 @@ export default {
                     color: rgb(7,17,27)
                     font-size: 14px
                 .pic-wrapper
-                    width: 100%
-                    overflow: hidden
-                    white-space: nowrap
+                    display: flex
+                    align-items: center
                     .pic-list
                         font-size: 0
                         .pic-item

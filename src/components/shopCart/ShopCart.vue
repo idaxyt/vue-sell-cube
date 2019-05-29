@@ -190,9 +190,11 @@ export default {
             // >>> 原因：> 用户第一次点击购物栏弹出购物列表，创建shop-cart-list组件并创建shopCartListCamp，
             // >>>        也创建shop-cart-sticky组件但没有创建shopCartListCamp；
             // >>>      > 需对shop-cart中的shopCartListcamp操作
-            // >>> 解决：> shop-cart-sticy组件$props属性设置list，ShopCart组件利用create API实例化ShopCartSticky组件时，
-            // >>>        传入值为shopCartListCamp实例化的值
-            // >>>       > ShopCart组件在__hideShopCartList方法中使用this.$parent.list方法调用ShopCartSticky的hide方法
+            // >>> 解决：> shop-cart-sticky组件$props属性设置list，ShopCart组件利用create API实例化ShopCartSticky组件时，
+            // >>>        传入值为shopCartListCamp实例化的值；同时对ShopCart组件$props属性设置sticky属性，区别ShopCart组件
+            // >>>        和shop-cart-sticky组件，shop-cart-sticky组件中sticky值始终为true。
+            // >>>       > ShopCart组件在__hideShopCartList方法中使用this.sticky判断哪一个组件的shopCartListCamp方法，
+            // >>>         再调用shopCartListCamp的hide方法
             // >>> -----------------------------------------------------------------------------------
             // >>> 问题：1.打开购物车列表之后点击阴影选择关闭之后，再点击购物栏时无反应，需再点击一次才出现购物列表
             // >>>       2. 用户进行tab（商品|评论|商家）切换，购物栏依旧存在

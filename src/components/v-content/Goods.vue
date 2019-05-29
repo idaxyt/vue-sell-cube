@@ -47,7 +47,6 @@
                                 </div>
                                 <div class="cartcontrol-wrapper">
                                     <CartControl :food="food" ></CartControl>
-                                    <!-- <CartControl :food="food" @cartadd='cartadd'></CartControl> -->
                                 </div>
                             </div>
                         </li>
@@ -55,65 +54,9 @@
                 </cube-scroll-nav-panel>
             </cube-scroll-nav>
         </div>
-        <!-- <div class="menu-wrapper" ref='menuWrapper'>
-            <ul>
-                <li 
-                    v-for="(item,index) in goods" 
-                    :key='index' 
-                    class="menu-item" 
-                    @click="handleClick(item.name,$event,index)"
-                    :ref='index'
-                    :class="CurrentIndex==index?'current':''"
-                    >
-                    <span class='text border-1px'>
-                        <support-ico class="icon" v-show='item.type > 0' :size='3' :type='item.type'></support-ico>{{item.name}}
-                    </span>
-                </li>
-            </ul>
-        </div> -->
-        <!-- <div class="foods-wrapper" ref='foodsWrapper'>
-            <ul>
-                <li 
-                    v-for="(item,index) in goods" 
-                    :key="index" 
-                    :ref='item.name'
-                    @touchstart.prevent='handleTouchStart'
-                    @touchmove='handleTouchMove'
-                    @touchend='handleTouchEnd'>
-                    <h1 class="title">{{item.name}}</h1>
-                    <ul>
-                        <li 
-                            v-for="(food,k) in item.foods" 
-                            :key="k" 
-                            class="food-item border-1px" 
-                            @click='selectFood(food,$event)'>
-                            <div class="icon">
-                                <img width='57' height='57' :src="food.icon" alt="">
-                            </div>
-                            <div class="content">
-                                <h2 class="name">{{food.name}}</h2>
-                                <p class="desc">{{food.description}}</p>
-                                <div class="extra">
-                                    <span class="count">月售{{food.sellCount}}份</span>
-                                    <span>好评率{{food.rating}}%</span>
-                                </div>
-                                <div class="price">
-                                    <span class="now">￥{{food.price}}</span>
-                                    <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
-                                </div>
-                                <div class="cartcontrol-wrapper">
-                                    <CartControl :food="food" @cartadd='cartadd'></CartControl>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div> -->
         <div class="shop-cart-wrapper">
             <ShopCart :seller='seller' :select-foods='selectedFoods' ref='shopcart'></ShopCart>
         </div>
-        <!-- <Food :food='selectedFood' v-model="chooseFood"></Food> -->
     </div>
 </template>
 
@@ -124,6 +67,7 @@ import ShopCart from '../shopCart/ShopCart'
 import CartControl from '../cartControl/CartControl'
 import Food from '../food/food'
 import Bubble from "../bubble/Bubble"
+import { getGoods } from '../../api'
 export default {
     name: 'Goods',
     props: {
@@ -137,6 +81,7 @@ export default {
     data() {
         return {
             Index: 0,
+            goods: [],
             scrollOptions: {
                 click: false,
                 directionLockThreshold: 0
@@ -147,7 +92,8 @@ export default {
             foodsList: [],
             timer: null,
             selectedFood: {},
-            chooseFood: false
+            chooseFood: false,
+            fetched: false
         }
     },
     components: {
@@ -161,9 +107,9 @@ export default {
         seller() {
             return this.data.seller
         },
-        goods() {
-            return this.data.goods
-        },
+        // goods() {
+        //     return this.data.goods
+        // },
         selectedFoods() {
             let foods = []
             this.goods.forEach((good)=>{
@@ -194,73 +140,16 @@ export default {
         }
     },
     methods: {
-        // _initScroll() {
-        //     this.menuScroll = new BScroll(this.$refs.menuWrapper,{
-        //         click: true
-        //     })
-        //     this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
-        //         click: true,
-        //         probeType: 3
-        //     })
-        //     this.foodsList = this.goods.map((item,index)=>{
-        //         return this.$refs[item.name][0].offsetTop
-        //     })
-        // },
-        // handleClick(v,event,index) {
-        //     if(!event._constructed) {
-        //         return 
-        //     }
-        //     const element = this.$refs[v][0]
-        //     this.CurrentIndex = index
-        //     this.foodsScroll.scrollToElement(element)
-        // },
-        // handleTouchStart() {
-        //     this.touchStatus = true
-        // },
-        // handleTouchMove(e) {
-        //     if(this.touchStatus) {
-        //         let that = this
-        //         if(this.timer) {
-        //             clearTimeout(this.timer);
-        //         }
-        //         this.timer = setTimeout(()=>{
-        //             this.foodsScroll.on('scroll',function(pos) {
-        //                 that.scrollY = Math.abs(Math.round(pos.y))
-        //                 for(let j = 0; j < that.foodsList.length; j++) {
-        //                     let height1 = that.foodsList[j]
-        //                     let height2 = that.foodsList[j+1]
-        //                     if((!height2 && that.scrollY>=height1) || (height1 <= that.scrollY && that.scrollY < height2)) {
-        //                         const ele = that.$refs[j][0]
-        //                         that.CurrentIndex = j
-        //                         that.menuScroll.scrollToElement(ele)
-        //                         break
-        //                     }
-        //                 }
-        //             })
-        //         },16)
-        //     }
-        // },
-        // handleTouchEnd() {
-        //     this.touchStatus = false
-        // },
-        cartadd(target) {
-            // 体验优化，异步执行下落动画
-            this.$nextTick(() => {
-                this.$refs['shopcart'].drop(target)
-            })
-        },
-        // selectFood(food,event) {
-        //     if(!event._constructed) {
-        //         return
-        //     }
-        //     this.selectedFood = food
-        //     this.chooseFood = true
-        // }
+        fetch() {
+            if(!this.fetched) {
+                this.fetched = true
+                getGoods().then((good) => {
+                    this.goods = good
+                })
+            }
+        }
     },
     mounted() {
-        // this.$nextTick(() => {
-        //     this._initScroll()
-        // })
     }
 }
 </script>

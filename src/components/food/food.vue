@@ -107,9 +107,22 @@ export default {
     name: 'food',
     props: {
         food: {
-            type: Object
+            type: Object,
+            default: () => {
+                return {}
+            }
         },
-        value: Boolean
+        seller: Object,
+        selectFoods: {
+            type: Array,
+            default() {
+                return []
+            }
+        },
+        fold: {
+            type: Boolean,
+            default: true
+        },
     },
     components: {
         CartControl,

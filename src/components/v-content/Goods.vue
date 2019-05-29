@@ -149,6 +149,7 @@ export default {
         selectFood(v) {
             this.selectedFood = v
             this._showFood()
+            this._showShopCartSticky()
         },
         _showFood() {
             this.foodComp = this.foodComp || this.$createFood({
@@ -157,6 +158,16 @@ export default {
                 }
             })
             this.foodComp.show()
+        },
+        _showShopCartSticky() {
+            this.shopCartStickyComp = this.shopCartStickyComp || this.$createShopCartSticky({
+                $props: {
+                    selectFoods: 'selectedFoods',
+                    seller: 'seller',
+                    fold: true,
+                }
+            })
+            this.shopCartStickyComp.show()
         }
     },
     mounted() {

@@ -12,7 +12,7 @@
     "better-scroll": "^1.15.2",
     "core-js": "^2.6.5",
     "cube-ui": "~1.12.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "vue": "^2.6.10",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.6"
